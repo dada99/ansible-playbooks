@@ -1,0 +1,4 @@
+{
+ "registry-mirrors": ["https://q1u34koz.mirror.aliyuncs.com"],
+  "insecure-registries" : ["10.163.213.25:5000"]
+}
