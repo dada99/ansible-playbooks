@@ -1,0 +1,8 @@
+#Test for Docker Module
+---
+- hosts: docker1
+  tasks:
+    - name: Create container
+      docker_container:
+        name: alpine
+        image: alpine

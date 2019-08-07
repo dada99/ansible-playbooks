@@ -2,3 +2,4 @@
 docker1 ansible_ssh_host=192.168.122.200 ansible_user=ubuntu
 docker2 ansible_ssh_host=192.168.122.201 ansible_user=ubuntu
 docker3 ansible_ssh_host=192.168.122.202 ansible_user=ubuntu
+docker4 ansible_ssh_host=192.168.122.203 ansible_user=ubuntu

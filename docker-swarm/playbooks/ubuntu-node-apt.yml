@@ -11,6 +11,14 @@
         group: root
         mode: 0644
         backup: yes
+    - name: Update Ubuntu's hosts file
+      copy:
+        src: ../files/docker-swarm-cluster-hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes        
     - name: Copy Docker's offical GPG key
       copy:
         src: ../files/docker.gpg
@@ -57,6 +65,9 @@
       service:
         name: docker
         state: restarted
-        
+    - name: Change Time zone to CST
+      file:
+        src: /usr/share/zoneinfo/Asia/Shanghai
+        dest: /etc/localtime    
         
   
