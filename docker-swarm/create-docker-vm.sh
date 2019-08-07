@@ -1,0 +1,1 @@
+awk '{ if($1 !~ /^\[/ ) {split($2,res,"="); print $1" "res[2]}}' inventory-for-test|xargs sudo ./kvm-install-vm-1.sh
