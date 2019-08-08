@@ -1,0 +1,5 @@
+[k8s]
+ubuntu-k8s-master ansible_ssh_host=192.168.122.2 ansible_user=ubuntu
+ubuntu-k8s-worker-1 ansible_ssh_host=192.168.122.3 ansible_user=ubuntu
+ubuntu-k8s-worker-2 ansible_ssh_host=192.168.122.4 ansible_user=ubuntu
+ubuntu-k8s-worker-3 ansible_ssh_host=192.168.122.5 ansible_user=ubuntu
