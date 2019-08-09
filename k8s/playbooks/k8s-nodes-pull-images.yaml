@@ -1,0 +1,8 @@
+#Configuration for Docker in K8s Clusters
+---
+- hosts: k8s-new
+  become: yes
+  tasks:    
+    - name: pull an image
+      docker_image:
+        name: 10.163.213.25:5000/calico/cni:v3.5.2

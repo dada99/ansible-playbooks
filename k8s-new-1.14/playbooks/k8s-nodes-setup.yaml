@@ -1,0 +1,25 @@
+#Configuration for Docker in K8s Clusters
+---
+- hosts: k8s-new
+  #become: yes
+  tasks:    
+    - name: install pip
+      apt:
+        name: python-pip
+        state: present
+    
+                
+    # - name: upgrade pip
+    #   shell: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U
+    - name: copy pip command to /usr/bin
+      become: yes
+      shell: cp /home/ubuntu/.local/bin/pip /usr/bin
+    - name: Setup pip to local mirror
+      #become: no
+      shell: pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple      
+    - name: pip install docker-py
+      pip: 
+        name: docker-py
+    - name: pull an image
+      docker_image:
+        name: gcr.azk8s.cn/google_containers/pause-amd64:3.0
