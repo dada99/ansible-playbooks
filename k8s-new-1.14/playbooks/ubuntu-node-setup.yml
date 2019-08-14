@@ -1,6 +1,6 @@
 #Install dependecies for Docker Swarm cluster
 ---
-- hosts: k8s-new
+- hosts: all
   become: yes
   tasks:
     - name: Update Ubuntu's Apt repo file with updated server infomation 
@@ -18,7 +18,15 @@
         owner: root
         group: root
         mode: 0644
-        backup: yes        
+        backup: yes 
+    - name: Update Ubuntu's DNS file
+      copy:
+        src: resolv.conf
+        dest: /etc/resolv.conf
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes                
         
     - name: Copy Docker's offical GPG key
       copy:
@@ -69,23 +77,30 @@
     - name: Change Time zone to CST
       file:
         src: /usr/share/zoneinfo/Asia/Shanghai
-        dest: /etc/localtime    
-
-
-    - name: install pip
+        dest: /etc/localtime
+    - name: Remove Python2
+      apt:
+        name: python
+        state: absent
+    - name: Remove Python2's pip
       apt:
         name: python-pip
-        state: present
-    # - name: Setup pip to local mirror
-    #   become: no
-    #   shell: pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-                
-    - name: upgrade pip
-      shell: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U
-    - name: copy pip command to /usr/bin
-      shell: cp ~/.local/bin/pip /usr/bin
-    - name: pip install docker-py
-      pip: 
-        name: docker-py
+        state: absent        
+    - name: Install Python 3.5.1
+      apt:
+        name: python3=3.5.1-3
+        update_cache: yes
+
+    - name: Install pip for Python 3
+      apt:
+        name: python3-pip=8.1.1-2
+        update_cache: yes        
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes        
+
+
+
+
         
   

@@ -1,5 +1,10 @@
-[k8s-new]
+[k8s-new-master]
 ubuntu-k8s-new-master ansible_ssh_host=192.168.122.11 ansible_user=ubuntu
+[k8s-new-workers]
 ubuntu-k8s-new-worker-1 ansible_ssh_host=192.168.122.12 ansible_user=ubuntu
 ubuntu-k8s-new-worker-2 ansible_ssh_host=192.168.122.13 ansible_user=ubuntu
 ubuntu-k8s-new-worker-3 ansible_ssh_host=192.168.122.14 ansible_user=ubuntu
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_user=ubuntu
+
