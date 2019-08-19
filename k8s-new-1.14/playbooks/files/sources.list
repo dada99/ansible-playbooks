@@ -1,2 +1,4 @@
 deb [arch=amd64] http://10.163.213.25:88/docker-ce/linux/ubuntu xenial stable
 deb http://10.163.213.25:88/ubuntu xenial main restricted universe multiverse
+deb http://10.163.213.25:88/ubuntu xenial-updates main restricted universe multiverse
+deb http://10.163.213.25:88/ubuntu xenial-security main restricted universe multiverse

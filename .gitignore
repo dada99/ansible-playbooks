@@ -1,2 +1,3 @@
 ansible-examples/*
 *.retry
+k8s-new-1.14/tmp/*

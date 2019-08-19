@@ -2,18 +2,18 @@
 ---
 - hosts: all
   tasks:    
-    # - name: Setup pip to local mirror
-      #shell: pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-      #shell: echo $HOME      
-    # - name: pip install docker
-    #   become: no
-    #   pip: 
-    #     name: docker
+    - name: Setup pip to local mirror
+      shell: pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+          
+    - name: pip install docker
+      pip: 
+        name: docker
     - name: Copy Google's APT key
       copy:
         src: apt-key-google.gpg
         dest: /home/ubuntu/apt-key-google.gpg
     - name: Add Google's official GPG key
+      become: yes
       apt_key:
         id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
         file: /home/ubuntu/apt-key-google.gpg
