@@ -2,12 +2,14 @@
 ---
 - hosts: all
   tasks:    
-    - name: Setup pip to local mirror
-      shell: pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+    # - name: Setup pip to local mirror
+    #   shell: pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
           
     - name: pip install docker
+      #become: ubuntu
       pip: 
         name: docker
+        extra_args: --user
     - name: Copy Google's APT key
       copy:
         src: apt-key-google.gpg
@@ -22,7 +24,7 @@
       lineinfile:
         path: /etc/apt/sources.list
         line: deb http://10.163.213.25:88/kubernetes kubernetes-xenial main
-    - name: Instal kubernetes tools
+    - name: Install kubernetes tools
       become: yes
       apt: 
         name: "{{ packages }}"

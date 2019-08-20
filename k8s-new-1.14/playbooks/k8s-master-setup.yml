@@ -1,0 +1,9 @@
+#Configuration for Master node in K8s Clusters
+---
+- hosts: all
+  #become: yes
+  tasks:  
+    - name: Pull Weave CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/weaveworks/weave-npc:2.5.2"
+        repository: "weaveworks/weave-npc:2.5.2"

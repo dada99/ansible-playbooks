@@ -1,6 +1,0 @@
-#Configuration for Master node in K8s Clusters
----
-- hosts: all
-  become: yes
-  tasks:  
-    - name: 
