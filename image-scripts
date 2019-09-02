@@ -1,0 +1,3 @@
+cat weave-1.14.5.yml|grep imag|awk '{print $2}'|xargs -n1 docker pull
+docker images|grep flannel|awk '{print $1":"$2}'|xargs -I {} docker tag {} 10.163.213.25:89/library/{}   
+docker images|grep weave|awk '{print $1":"$2}'|xargs -I {} docker tag {} 10.163.213.25:89/library/{}  

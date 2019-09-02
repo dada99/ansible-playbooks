@@ -1,4 +1,4 @@
-#Pull CNI files and images for nodes
+#Pull files and images for labs
 ---
 - hosts: all
   #become: yes
@@ -15,6 +15,8 @@
     #   docker_image:
     #     name: "10.163.213.25:89/library/weaveworks/weave-kube:2.5.2"
     #     repository: "weaveworks/weave-kube:2.5.2"
+
+    
     - name: Pull Weave CNI docker images
       docker_image:
         name: "10.163.213.25:89/library/weaveworks/weave-npc:2.5.2"
@@ -60,7 +62,16 @@
     - name: Pull Calico CNI docker images
       docker_image:
         name: "10.163.213.25:89/library/gcr.io/google_containers/etcd:2.2.1"
-        repository: "gcr.io/google_containers/etcd:2.2.1"                                         
+        repository: "gcr.io/google_containers/etcd:2.2.1" 
+    - name: Pull Nginx 1.7.9 image
+      docker_image:
+        name: "10.163.213.25:89/library/nginx:1.7.9"
+        repository: "nginx:1.7.9" 
+    - name: Pull Nginx 1.9.1 image
+      docker_image:
+        name: "10.163.213.25:89/library/nginx:1.9.1"
+        repository: "nginx:1.9.1"         
+                                        
                         
 
 
