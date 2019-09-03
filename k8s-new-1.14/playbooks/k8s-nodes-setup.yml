@@ -33,7 +33,12 @@
         packages:
         - kubelet=1.14.5-00
         - kubeadm=1.14.5-00
-        - kubectl=1.14.5-00        
+        - kubectl=1.14.5-00
+    - name: Install NFS client
+      become: yes
+      apt:
+        name: nfs-common
+
     # - name: Remove kubernetes tools
     #   apt: 
     #     name: "{{ packages }}"
