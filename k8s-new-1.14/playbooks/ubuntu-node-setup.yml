@@ -74,7 +74,7 @@
     - name: Restart Docker Service
       become: yes 
       service:
-        name: docker  
+        name: docker
         state: restarted
     - name: Change Time zone to CST
       file:
@@ -96,10 +96,7 @@
     - name: Install pip for Python 3
       apt:
         name: python3-pip
-        #update_cache: yes
-    # - name: copy pip command to /usr/bin
-    #   shell: cp ~/.local/bin/pip3 /usr/bin
-
+        #update_cache: yes        
     - name: Remove dependencies that are no longer required
       apt:
         autoremove: yes              
