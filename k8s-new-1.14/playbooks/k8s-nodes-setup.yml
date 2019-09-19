@@ -9,7 +9,7 @@
       #become: ubuntu
       pip: 
         name: docker
-        extra_args: --user -i https://pypi.tuna.tsinghua.edu.cn/simple
+        extra_args: --user #-i https://pypi.tuna.tsinghua.edu.cn/simple
     - name: Copy Google's APT key
       copy:
         src: apt-key-google.gpg
@@ -23,7 +23,7 @@
       become: yes
       lineinfile:
         path: /etc/apt/sources.list
-        line: deb https://mirros.aliyun/kubernetes/apt kubernetes-xenial main
+        line: deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main
     - name: Install kubernetes tools
       become: yes
       apt: 
