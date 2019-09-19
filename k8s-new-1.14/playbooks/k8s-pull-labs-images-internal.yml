@@ -1,0 +1,81 @@
+#Pull files and images for labs
+---
+- hosts: all
+  #become: yes
+  tasks:  
+    - name: Copy Weave's YAML file
+      copy:
+        src: weave-1.14.5.yml
+        dest: /home/ubuntu/
+    - name: Pull Weave CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/weaveworks/weave-kube:2.5.2"
+        repository: "weaveworks/weave-kube:2.5.2"
+    # - name: Chanage Weave CNI image's tag
+    #   docker_image:
+    #     name: "10.163.213.25:89/library/weaveworks/weave-kube:2.5.2"
+    #     repository: "weaveworks/weave-kube:2.5.2"
+
+    
+    - name: Pull Weave CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/weaveworks/weave-npc:2.5.2"
+        repository: "weaveworks/weave-npc:2.5.2"        
+    # - name: Chanage Weave CNI image's tag
+    #   docker_image:
+    #     name: "10.163.213.25:89/library/weaveworks/weave-npc:2.5.2"
+    #     repository: "weaveworks/weave-npc:2.5.2"        
+
+    - name: Copy Flannel's YAML file
+      copy:
+        src: flannel-1.14.5.yml
+        dest: /home/ubuntu/
+    - name: Pull Flannel CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/quay.io/coreos/flannel:v0.11.0-amd64"
+        repository: "quay.io/coreos/flannel:v0.11.0-amd64"
+    # - name: Chanage Flannel CNI image's tag
+    #   docker_image:
+    #     name: "10.163.213.25:89/library/quay.io/coreos/flannel:v0.11.0-amd64"
+    #     repository: "quay.io/coreos/flannel:v0.11.0-amd64"         
+
+    - name: Copy Calico's YAML file
+      copy:
+        src: calico-1.14.5.yml
+        dest: /home/ubuntu/
+    - name: Pull Calico CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/calico/cni:v1.5.6"
+        repository: "calico/cni:v1.5.6"
+    - name: Pull Calico CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/calico/ctl:v1.0.2"
+        repository: "calico/ctl:v1.5.6"
+    - name: Pull Calico CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/calico/kube-policy-controller:v0.5.2"
+        repository: "calico/kube-policy-controller:v0.5.2"   
+    - name: Pull Calico CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/quay.io/calico/node:v1.0.2"
+        repository: "quay.io/calico/node:v1.0.2"
+    - name: Pull Calico CNI docker images
+      docker_image:
+        name: "10.163.213.25:89/library/gcr.io/google_containers/etcd:2.2.1"
+        repository: "gcr.io/google_containers/etcd:2.2.1" 
+    - name: Pull Nginx 1.7.9 image
+      docker_image:
+        name: "10.163.213.25:89/library/nginx:1.7.9"
+        repository: "nginx:1.7.9" 
+    - name: Pull Nginx 1.9.1 image
+      docker_image:
+        name: "10.163.213.25:89/library/nginx:1.9.1"
+        repository: "nginx:1.9.1"         
+                                        
+                        
+
+
+                        
+
+
+    
