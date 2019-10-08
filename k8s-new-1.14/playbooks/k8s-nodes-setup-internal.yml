@@ -8,7 +8,7 @@
     # Offline packages are not included in this repo
       copy:
         src: pip-docker-packages # This name maybe different
-        dest: /home/ubuntu/pip-docker-packages
+        dest: /home/ubuntu/
 
     - name: pip install docker offline packages
       #become: ubuntu
