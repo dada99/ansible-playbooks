@@ -10,11 +10,11 @@
         src: pip-docker-packages # This name maybe different
         dest: /home/ubuntu/pip-docker-packages
 
-    - name: pip install docker
+    - name: pip install docker offline packages
       #become: ubuntu
       pip: 
-        name: docker
-        extra_args: --user -i https://pypi.tuna.tsinghua.edu.cn/simple
+        requirements: /home/ubuntu/pip-docker-packages/requirements.txt
+        extra_args: "--user --no-index --find-links=file:///home/ubuntu/pip-docker-packages"
     - name: Copy Google's APT key
       copy:
         src: apt-key-google.gpg
