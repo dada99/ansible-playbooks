@@ -5,7 +5,7 @@
   tasks:
     - name: Update Ubuntu's Apt repo file with updated server infomation 
       copy:
-        src: sources.list
+        src: sources-internal.list
         dest: /etc/apt/sources.list
         owner: root
         group: root
