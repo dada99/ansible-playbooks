@@ -34,6 +34,7 @@
       docker_image:
         name: "10.163.213.25:89/library/quay.io/coreos/flannel:v0.11.0-amd64"
         repository: "quay.io/coreos/flannel:v0.11.0-amd64"
+        
     # - name: Chanage Flannel CNI image's tag
     #   docker_image:
     #     name: "10.163.213.25:89/library/quay.io/coreos/flannel:v0.11.0-amd64"
@@ -63,6 +64,14 @@
     #   docker_image:
     #     name: "10.163.213.25:89/library/gcr.io/google_containers/etcd:2.2.1"
     #     repository: "gcr.io/google_containers/etcd:2.2.1" 
+    - name: Copy Kubernetes Dashboard's YAML file
+      copy:
+        src: kubernetes-dashboard.yaml
+        dest: /home/ubuntu/
+    - name: Pull Kubernetes Dashboard docker images
+      docker_image:
+        name: "10.163.213.25:89/library/google_container/kubernetes-dashboard-amd64:v1.10.1"
+        repository: "k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1"    
     - name: Pull Nginx 1.7.9 image
       docker_image:
         name: "10.163.213.25:89/library/nginx:1.7.9"
@@ -70,7 +79,16 @@
     - name: Pull Nginx 1.9.1 image
       docker_image:
         name: "10.163.213.25:89/library/nginx:1.9.1"
-        repository: "nginx:1.9.1"         
+        repository: "nginx:1.9.1"   
+    - name: Copy Kubernetes Metrics Server's YAML files
+      copy:
+        src: metric-server
+        dest: /home/ubuntu/
+    - name: Pull Metric Server image
+      docker_image:
+        name: "10.163.213.25:89/library/google_container/metrics-server-amd64:v0.3.3"
+        repository: "k8s.gcr.io/metrics-server-amd64:v0.3.3" 
+                     
                                         
                         
 
