@@ -1,5 +1,6 @@
 ansible-examples/*
 *.retry
+*.whl
 k8s-new-1.14/tmp/*
 k8s-new-1.14/metrics-server/*
 k8s-new-1.14/yaml-samples/*

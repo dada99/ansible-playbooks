@@ -2,7 +2,16 @@
 ---
 - hosts: all
   #become: yes
-  tasks:  
+  vars_prompt: 
+    - name: harbor_admin_password
+      prompt: "Input Harbor's password"
+
+  tasks: 
+    - name: Log into local registry
+      docker_login:
+        registry: 10.163.213.25:89
+        username: admin
+        password: '{{ harbor_admin_password }}'
     - name: Copy Weave's YAML file
       copy:
         src: weave-1.14.5.yml
@@ -88,6 +97,16 @@
       docker_image:
         name: "10.163.213.25:89/library/google_container/metrics-server-amd64:v0.3.3"
         repository: "k8s.gcr.io/metrics-server-amd64:v0.3.3" 
+
+    - name: Copy Kubernetes Nginx Ingress's YAML files
+      copy:
+        src: ingress-nginx
+        dest: /home/ubuntu/
+
+    - name: Pull Kubernetes Nginx Ingress image
+      docker_image:
+        name: "10.163.213.25:89/library/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1"
+        repository: "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1"         
                      
                                         
                         
