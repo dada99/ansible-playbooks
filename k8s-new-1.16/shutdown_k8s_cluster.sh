@@ -1,2 +1,2 @@
 #!/bin/bash
-ansible -i inventory-k8s-new all -m shell -a "poweroff" -b
+ansible -i inventory-k8s-116-3 all -m shell -a "poweroff" -b
