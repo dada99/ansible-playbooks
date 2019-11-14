@@ -1,0 +1,10 @@
+#Pull files and images for labs
+---
+- hosts: all
+  #become: yes
+  gather_facts: false
+  tasks:
+      - name: Pull Busybox image
+        docker_image:
+          name: "10.163.213.25:89/library/busybox:1.31-glibc"
+          repository: "busybox:1.31"  

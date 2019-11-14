@@ -5,7 +5,7 @@
   tasks:
     - name: Update Ubuntu's Apt repo file with updated server infomation 
       copy:
-        src: sources.list
+        src: sources-internal.list
         dest: /etc/apt/sources.list
         owner: root
         group: root
@@ -13,7 +13,7 @@
         backup: yes
     - name: Update Ubuntu's hosts file
       copy:
-        src: k8s-116-3-hosts
+        src: k8s-new-3nodes.txt
         dest: /etc/hosts
         owner: root
         group: root
