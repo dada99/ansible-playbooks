@@ -51,6 +51,7 @@
         - gnupg-agent # This package is in xenial-update,xenial-security
         - software-properties-common
         - ipvsadm # This is for using IPVS proxier
+        - aptitude
     - name: Install Docker CE
       apt:
         name: "{{ packages_docker }}" 
