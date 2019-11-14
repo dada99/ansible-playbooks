@@ -1,6 +1,7 @@
 #Install dependecies for Docker Swarm cluster
 ---
 - hosts: all
+  gather_facts: false
   become: yes
   tasks:
     - name: Update Ubuntu's Apt repo file with updated server infomation 
