@@ -1,8 +1,8 @@
 127.0.0.1	localhost
-192.168.122.11 ubuntu-k8s-new-master
-192.168.122.12 ubuntu-k8s-new-worker-1
-192.168.122.13 ubuntu-k8s-new-worker-2
-192.168.122.14 ubuntu-k8s-new-worker-3
+192.168.122.15 ubuntu-k8s-116-master
+192.168.122.16 ubuntu-k8s-116-worker-1
+192.168.122.17 ubuntu-k8s-116-worker-2
+192.168.122.18 ubuntu-k8s-116-worker-3
 ::1	localhost ip6-localhost ip6-loopback
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters

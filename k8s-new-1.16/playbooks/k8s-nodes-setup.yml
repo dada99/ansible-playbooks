@@ -105,6 +105,20 @@
       docker_image:
         name: "gcr.azk8s.cn/google_containers/kube-apiserver:v1.16.2"
         repository: "k8s.gcr.io/kube-apiserver:v1.16.2" 
+
+    - name: Create a directory for hostPath Volume
+      become: yes
+      file:
+        path: /host_path_storage
+        state: directory
+        mode: '0755'        
+
+    - name: Create a directory for local PV
+      become: yes
+      file:
+        path: /pv_local
+        state: directory
+        mode: '0755'          
         
         
         
