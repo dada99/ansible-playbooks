@@ -13,7 +13,7 @@
         backup: yes
     - name: Update Ubuntu's hosts file
       copy:
-        src: k8s-new-hosts
+        src: k8s-116-3-hosts
         dest: /etc/hosts
         owner: root
         group: root
