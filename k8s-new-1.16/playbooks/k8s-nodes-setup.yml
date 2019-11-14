@@ -1,15 +1,28 @@
 #Configuration for Kubernetes dependencies in K8s Clusters
 ---
 - hosts: all
+  gather_facts: false
   tasks:    
     # - name: Setup pip to local mirror
     #   shell: pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-          
-    - name: pip install docker
+    - name: Copy pip's docker packages to nodes
+    # Offline packages are not included in this repo
+      copy:
+        src: pip-docker-packages # This name maybe different
+        dest: /home/ubuntu/
+
+    # - name: pip install docker
+    #   #become: ubuntu
+    #   pip: 
+    #     name: docker
+    #     extra_args: --user #-i https://pypi.tuna.tsinghua.edu.cn/simple
+    
+    - name: pip install docker offline packages
       #become: ubuntu
       pip: 
-        name: docker
-        extra_args: --user #-i https://pypi.tuna.tsinghua.edu.cn/simple
+        requirements: /home/ubuntu/pip-docker-packages/requirements.txt
+        extra_args: "--user --no-index --find-links=file:///home/ubuntu/pip-docker-packages"
+
     - name: Copy Google's APT key
       copy:
         src: apt-key-google.gpg
@@ -31,13 +44,10 @@
         update_cache: yes
       vars: 
         packages:
-        - kubelet=1.14.5-00
-        - kubeadm=1.14.5-00
-        - kubectl=1.14.5-00
-    - name: Install NFS client
-      become: yes
-      apt:
-        name: nfs-common
+        - kubelet=1.16.2-00
+        - kubeadm=1.16.2-00
+        - kubectl=1.16.2-00
+
 
     # - name: Remove kubernetes tools
     #   apt: 
