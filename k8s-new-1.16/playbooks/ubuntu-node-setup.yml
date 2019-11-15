@@ -52,6 +52,15 @@
         - software-properties-common
         - ipvsadm # This is for using IPVS proxier
         - aptitude
+    - name: Copy libseccomp2 deb 
+      copy:
+        src: libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb
+        dest: /home/ubuntu/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb
+
+    - name: Install libseccomp2 deb 
+      apt:
+        deb: /home/ubuntu/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb 
+                
     - name: Install Docker CE
       apt:
         name: "{{ packages_docker }}" 
