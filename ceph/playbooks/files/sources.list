@@ -1,0 +1,4 @@
+deb http://cn.archive.ubuntu.com/ubuntu xenial main restricted universe multiverse
+deb http://cn.archive.ubuntu.com/ubuntu xenial-updates  restricted universe multiverse
+deb http://cn.archive.ubuntu.com/ubuntu xenial-security restricted universe multiverse
+

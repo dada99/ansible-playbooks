@@ -1,0 +1,50 @@
+#Install dependecies for Docker Swarm cluster
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: Update Ubuntu's hosts file
+      copy:
+        src: ceph-hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes 
+            
+    - name: Update Ubuntu's Apt repo file with updated server infomation 
+      copy:
+        src: sources.list
+        dest: /etc/apt/sources.list
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes
+
+    - name: Update Ubuntu's DNS file
+      copy:
+        src: resolv.conf
+        dest: /etc/resolv.conf
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes                        
+ 
+    - name: Update Apt with latest information
+      apt:
+        update_cache: yes
+
+    - name: Install Ceph Deploy
+      apt:
+        name: ceph-deploy
+            
+    - name: Change Time zone to CST
+      file:
+        src: /usr/share/zoneinfo/Asia/Shanghai
+        dest: /etc/localtime
+
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes              
+  
