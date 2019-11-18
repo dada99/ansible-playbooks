@@ -1,0 +1,49 @@
+#Setup for training lab with create direcoties and copy files
+---
+- hosts: all
+  #become: yes
+  tasks:  
+    - name: Create a directory for hostPath Volume
+      become: yes
+      file:
+        path: /host_path_storage
+        state: directory
+        mode: '0755'        
+
+    - name: Create a directory for local PV
+      become: yes
+      file:
+        path: /pv_local
+        state: directory
+        mode: '0755'    
+    - name: Copy YAML files for training lab
+      copy:
+        src: yamls/{{ item }}
+        dest: /home/ubuntu/yamls
+        with_items:
+        - pod/busybox-pod-v1.yaml 
+        - pod/busybox-pod-v1-init-container.yaml
+        - deployment/nginx-deployment-v1.yaml
+        - deployment/busybox-deployment-v1.yaml
+        - deployment/configmap/flavor
+        - deployment/configmap/userinfo
+        - storage/busybox-deployment-vol-v1.yaml
+        - storage/pv-local-1g.yaml
+        - storage/pvc-local-1g.yaml 
+        - storage/nginx-pod-pvc-local.yaml
+        - security/role-pod-view.yaml 
+        - security/rolebinding-user1.yaml
+        - security/clusterrole-pod-view.yaml
+        - security/clusterrolebinding-pod-view.yaml
+        - security/busybox-pod-v1.yaml
+        - namespace/limitrange-mem-cpu-v1.yaml
+        - namespace/load.sh
+        - namespace/busybox-pod-v1.yaml 
+        - namespace/resourcequota-v1.yaml
+        - network-service/nginx-pod-v1.yaml 
+        - network-service/service-nginx-v1.yaml
+        - network-service/ingress-nginx-v1.yaml
+
+
+
+        

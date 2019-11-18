@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-v5
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.7.9
+    ports:
+    - containerPort: 80
+    command: 
+      - "/bin/bash"
+      - "-c"
+      - "ip a l > /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"
+
