@@ -4,8 +4,27 @@
   gather_facts: false
   become: yes
   tasks:
+    - name: Add Ceph APT key
+      apt_key:
+        url: https://download.ceph.com/keys/release.asc
+        state: present
+
+    - name: Add Ceph APT source link
+      become: yes
+      lineinfile:
+        path: /etc/apt/sources.list
+        line: deb https://mirrors.ustc.edu.cn/ceph/debian-nautilus/ xenial main
+
+    - name: Update Apt with latest information
+      apt:
+        update_cache: yes        
+
     - name: Install Ceph Deploy
       apt:
         name: ceph-deploy
+
+    - name: Install NTP Service
+      apt:
+        name: ntp        
             
-  
+    
