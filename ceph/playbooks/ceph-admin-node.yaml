@@ -1,0 +1,11 @@
+#Install dependecies for Docker Swarm cluster
+---
+- hosts: ceph-daemon
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: Install Ceph Deploy
+      apt:
+        name: ceph-deploy
+            
+  
