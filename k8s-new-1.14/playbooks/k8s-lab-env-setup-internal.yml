@@ -1,6 +1,7 @@
 #Setup for training lab with create direcoties and copy files
 ---
 - hosts: all
+  gather_facts: false
   #become: yes
   tasks:  
     - name: Create a directory for hostPath Volume
@@ -16,33 +17,44 @@
         path: /pv_local
         state: directory
         mode: '0755'    
+
+    - name: Create a directory for lab's YAML files
+      file:
+        path: /home/ubuntu/yamls
+        state: directory
+        mode: '0755'   
+
     - name: Copy YAML files for training lab
       copy:
-        src: yamls/{{ item }}
-        dest: /home/ubuntu/yamls
-        with_items:
-        - pod/busybox-pod-v1.yaml 
-        - pod/busybox-pod-v1-init-container.yaml
-        - deployment/nginx-deployment-v1.yaml
-        - deployment/busybox-deployment-v1.yaml
-        - deployment/configmap/flavor
-        - deployment/configmap/userinfo
-        - storage/busybox-deployment-vol-v1.yaml
-        - storage/pv-local-1g.yaml
-        - storage/pvc-local-1g.yaml 
-        - storage/nginx-pod-pvc-local.yaml
-        - security/role-pod-view.yaml 
-        - security/rolebinding-user1.yaml
-        - security/clusterrole-pod-view.yaml
-        - security/clusterrolebinding-pod-view.yaml
-        - security/busybox-pod-v1.yaml
-        - namespace/limitrange-mem-cpu-v1.yaml
-        - namespace/load.sh
-        - namespace/busybox-pod-v1.yaml 
-        - namespace/resourcequota-v1.yaml
-        - network-service/nginx-pod-v1.yaml 
-        - network-service/service-nginx-v1.yaml
-        - network-service/ingress-nginx-v1.yaml
+        src: yamls/{{ item.src }}
+        dest: /home/ubuntu/yamls/{{ item.dest }}/
+      become: yes  
+      with_items:
+        - { src: pod/busybox-pod-v1.yaml , dest: pod }
+        - { src: pod/busybox-pod-v1-init-container.yaml, dest: pod }
+        - { src: deployment/nginx-deployment-v1.yaml, dest: deployment }
+        - { src: deployment/busybox-deployment-v1.yaml, dest: deployment }
+        - { src: deployment/configmap/flavor, dest: deploymentconfigmap }
+        - { src: deployment/configmap/userinfo, dest: deploymentconfigmap }
+        - { src: storage/busybox-deployment-vol-v1.yaml, dest: storage }
+        - { src: storage/pv-local-1g.yaml, dest: storage }
+        - { src: storage/pvc-local-1g.yaml , dest: storage }
+        - { src: storage/nginx-pod-pvc-local.yaml, dest: storage }
+        - { src: security/role-pod-view.yaml , dest: security }
+        - { src: security/rolebinding-user1.yaml, dest: security }
+        - { src: security/clusterrole-pod-view.yaml, dest: security }
+        - { src: security/clusterrolebinding-pod-view.yaml, dest: security }
+        - { src: security/busybox-pod-v1.yaml, dest: security }
+        - { src: namespace/limitrange-mem-cpu-v1.yaml, dest: namespace }
+        - { src: namespace/load.sh, dest: namespace }
+        - { src: namespace/busybox-pod-v1.yaml , dest: namespace }
+        - { src: namespace/resourcequota-v1.yaml, dest: namespace }
+        - { src: network-service/nginx-pod-v1.yaml , dest: network-service }
+        - { src: network-service/service-nginx-v1.yaml, dest: network-service }
+        - { src: network-service/ingress-nginx-v1.yaml, dest: network-service }
+         
+        
+
 
 
 
