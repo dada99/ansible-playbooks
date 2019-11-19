@@ -29,15 +29,29 @@
         owner: root
         group: root
         mode: 0644
-        backup: yes                        
+        backup: yes
+
+    - name: Disable APT dialy update service
+      systemd:
+        name: apt-daily.service
+        state: stopped
+
  
-    - name: Update Apt with latest information
+    - name: Update APT with latest information
       apt:
         update_cache: yes
 
-    - name: Install Ceph Deploy
+    - name: Install NTP Service
       apt:
-        name: ceph-deploy
+        name: ntp
+    - name: Copy upated NTP config file
+      copy:
+        src: ntp.conf
+        dest: /etc/ntp.conf
+    - name: Restart NTP Service
+      systemd:
+        name: ntp.service
+        state: restarted                   
             
     - name: Change Time zone to CST
       file:
