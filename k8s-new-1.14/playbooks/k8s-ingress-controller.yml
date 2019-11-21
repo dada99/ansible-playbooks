@@ -1,0 +1,11 @@
+#Configuration for Ingress controller
+---
+- hosts: all
+  #become: yes
+  tasks:  
+    - name: Pull Nginx Ingress Controller docker images
+      docker_image:
+        name: "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.0"
+        
+
+        
