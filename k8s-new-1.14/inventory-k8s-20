@@ -1,0 +1,46 @@
+[k8s-lab-0]
+ubuntu-lab-0-master     ansible_ssh_host=192.168.122.100        ansible_user=ubuntu
+ubuntu-lab-0-worker-1   ansible_ssh_host=192.168.122.101        ansible_user=ubuntu
+ubuntu-lab-0-worker-2   ansible_ssh_host=192.168.122.102        ansible_user=ubuntu
+[k8s-lab-1]
+ubuntu-lab-1-master     ansible_ssh_host=192.168.122.103        ansible_user=ubuntu
+ubuntu-lab-1-worker-1   ansible_ssh_host=192.168.122.104        ansible_user=ubuntu
+ubuntu-lab-1-worker-2   ansible_ssh_host=192.168.122.105        ansible_user=ubuntu
+[k8s-lab-2]
+ubuntu-lab-2-master     ansible_ssh_host=192.168.122.106        ansible_user=ubuntu
+ubuntu-lab-2-worker-1   ansible_ssh_host=192.168.122.107        ansible_user=ubuntu
+ubuntu-lab-2-worker-2   ansible_ssh_host=192.168.122.108        ansible_user=ubuntu
+[k8s-lab-3]
+ubuntu-lab-3-master     ansible_ssh_host=192.168.122.109        ansible_user=ubuntu
+ubuntu-lab-3-worker-1   ansible_ssh_host=192.168.122.110        ansible_user=ubuntu
+ubuntu-lab-3-worker-2   ansible_ssh_host=192.168.122.111        ansible_user=ubuntu
+[k8s-lab-4]
+ubuntu-lab-4-master     ansible_ssh_host=192.168.122.112        ansible_user=ubuntu
+ubuntu-lab-4-worker-1   ansible_ssh_host=192.168.122.113        ansible_user=ubuntu
+ubuntu-lab-4-worker-2   ansible_ssh_host=192.168.122.114        ansible_user=ubuntu
+[k8s-lab-5]
+ubuntu-lab-5-master     ansible_ssh_host=192.168.122.115        ansible_user=ubuntu
+ubuntu-lab-5-worker-1   ansible_ssh_host=192.168.122.116        ansible_user=ubuntu
+ubuntu-lab-5-worker-2   ansible_ssh_host=192.168.122.117        ansible_user=ubuntu
+[k8s-lab-6]
+ubuntu-lab-6-master     ansible_ssh_host=192.168.122.118        ansible_user=ubuntu
+ubuntu-lab-6-worker-1   ansible_ssh_host=192.168.122.119        ansible_user=ubuntu
+ubuntu-lab-6-worker-2   ansible_ssh_host=192.168.122.120        ansible_user=ubuntu
+[k8s-lab-7]
+ubuntu-lab-7-master     ansible_ssh_host=192.168.122.121        ansible_user=ubuntu
+ubuntu-lab-7-worker-1   ansible_ssh_host=192.168.122.122        ansible_user=ubuntu
+ubuntu-lab-7-worker-2   ansible_ssh_host=192.168.122.123        ansible_user=ubuntu
+[k8s-lab-8]
+ubuntu-lab-8-master     ansible_ssh_host=192.168.122.124        ansible_user=ubuntu
+ubuntu-lab-8-worker-1   ansible_ssh_host=192.168.122.125        ansible_user=ubuntu
+ubuntu-lab-8-worker-2   ansible_ssh_host=192.168.122.126        ansible_user=ubuntu
+[k8s-lab-9]
+ubuntu-lab-9-master     ansible_ssh_host=192.168.122.127        ansible_user=ubuntu
+ubuntu-lab-9-worker-1   ansible_ssh_host=192.168.122.128        ansible_user=ubuntu
+ubuntu-lab-9-worker-2   ansible_ssh_host=192.168.122.129        ansible_user=ubuntu
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_user=ubuntu
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_ssh_private_key_file=ansible-ssh-key
+

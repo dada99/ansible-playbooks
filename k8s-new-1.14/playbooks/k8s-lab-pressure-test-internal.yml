@@ -1,0 +1,12 @@
+#Set some load to check the pressure of one physical server
+---
+- hosts: ubuntu-lab*master
+  #gather_facts: false
+  vars:
+    #master_ip: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+  tasks: 
+    - name:
+      become: yes
+      shell:
+        cmd: kubeadm init --pod-network-cidr=10.0.0.0/16 --kubernetes-version=v1.14.5 --ignore-preflight-errors=all --apiserver-advertise-address={{ ansible_ens3.ipv4.address }}
+        
