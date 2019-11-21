@@ -3,6 +3,8 @@
 - hosts: all
   gather_facts: false
   become: yes
+  vars:
+    ceph_user: doceph
   tasks:
     - name: Update Ubuntu's hosts file
       copy:
@@ -44,6 +46,17 @@
     - name: Install NTP Service
       apt:
         name: ntp
+
+    - name: Install Python 2
+      apt: 
+        name: python2.7
+
+    - name: Create a Python link 
+      file:
+        src: "/usr/bin/python2.7"
+        dest: "/usr/bin/python2"
+        state: link    
+               
     - name: Copy upated NTP config file
       copy:
         src: ntp.conf
@@ -60,5 +73,32 @@
 
     - name: Remove dependencies that are no longer required
       apt:
-        autoremove: yes              
+        autoremove: yes
+    - name: Add new user for Ceph
+      user: 
+        name: "{{ ceph_user }}"
+
+    - name: Copy SSH privated key to new user's home    
+      copy:
+        src: ssh-key-private
+        dest: /home/{{ ceph_user }}/.ssh/id_rsa
+
+    - name: Set SSH key
+      authorized_key:
+        user: "{{ ceph_user }}"
+        state: present
+        key: '{{ item }}'
+        #validate_certs: False
+      with_file:
+        - ssh-key-private.pub  
+
+    - name: Add new user to sudo list
+      lineinfile: 
+        path: /etc/sudoers
+        state: present
+        line: '{{ item }}'    
+        validate: 'visudo -cf %s'
+      with_items: 
+        - "{{ ceph_user }} ALL= (root) NOPASSWD:ALL"
+                 
   
