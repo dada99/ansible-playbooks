@@ -8,7 +8,7 @@
   tasks:
     - name: Update Ubuntu's hosts file
       copy:
-        src: cephhosts
+        src: ceph_hosts_internal
         dest: /etc/hosts
         owner: root
         group: root
@@ -17,7 +17,7 @@
             
     - name: Update Ubuntu's Apt repo file with updated server infomation 
       copy:
-        src: sources.list
+        src: sources_internal.list
         dest: /etc/apt/sources.list
         owner: root
         group: root
@@ -59,7 +59,7 @@
                
     - name: Copy upated NTP config file
       copy:
-        src: ntp.conf
+        src: ntp_internal.conf
         dest: /etc/ntp.conf
     - name: Restart NTP Service
       systemd:
@@ -81,8 +81,14 @@
     - name: Copy SSH privated key to new user's home    
       copy:
         src: ssh-key-private
-        dest: /home/{{ ceph_user }}/.ssh/id_rsa
-
+        dest: /home/{{ ceph_user }}/.ssh/
+        
+    - name: Renam SSH key
+      file:
+        src: /home/{{ ceph_user }}/.ssh/ssh-key-private
+        dest: /home/{{ ceph_user }}/.ssh/id_rsa   
+        mode: 0600
+        state: link
     - name: Set SSH key
       authorized_key:
         user: "{{ ceph_user }}"

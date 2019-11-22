@@ -1,0 +1,44 @@
+#Install dependecies for Docker Swarm cluster
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: Copy Ceph's Repo APT key
+      copy:
+        src: ceph_repo_release.asc
+        dest: /home/ubuntu/ceph_repo_release.asc
+
+    - name: Add Ceph APT key
+      apt_key:
+        file: /home/ubuntu/ceph_repo_release.asc
+
+    - name: Update Ubuntu's hosts file
+      copy:
+        src: ceph_hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes 
+
+    - name: Add Ceph APT source link
+      become: yes
+      lineinfile:
+        path: /etc/apt/sources.list
+        line: deb http://10.163.213.25:88/ceph/debian-nautilus/ xenial main
+
+     
+
+- hosts: ceph-daemon
+  gather_facts: false
+  become: yes
+  tasks:          
+
+    - name: Install Ceph Deploy
+      apt:
+        name: ceph-deploy
+
+          
+            
+    

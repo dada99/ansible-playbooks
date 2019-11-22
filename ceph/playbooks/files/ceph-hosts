@@ -1,8 +1,0 @@
-127.0.0.1	localhost
-192.168.100.21 ubuntu-ceph-daemon
-192.168.100.22 ubuntu-ceph-host-1
-192.168.100.23 ubuntu-ceph-host-2
-192.168.100.24 ubuntu-ceph-host-3
-::1	localhost ip6-localhost ip6-loopback
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
