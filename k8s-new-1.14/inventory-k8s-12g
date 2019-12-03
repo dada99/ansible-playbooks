@@ -38,9 +38,16 @@ ubuntu-lab-8-worker-2   ansible_ssh_host=192.168.122.126        ansible_user=ubu
 ubuntu-lab-9-master     ansible_ssh_host=192.168.122.127        ansible_user=ubuntu
 ubuntu-lab-9-worker-1   ansible_ssh_host=192.168.122.128        ansible_user=ubuntu
 ubuntu-lab-9-worker-2   ansible_ssh_host=192.168.122.129        ansible_user=ubuntu
+[k8s-lab-10]
+ubuntu-lab-10-master    ansible_ssh_host=192.168.122.130        ansible_user=ubuntu
+ubuntu-lab-10-worker-1  ansible_ssh_host=192.168.122.131        ansible_user=ubuntu
+ubuntu-lab-10-worker-2  ansible_ssh_host=192.168.122.132        ansible_user=ubuntu
+[k8s-lab-11]
+ubuntu-lab-11-master    ansible_ssh_host=192.168.122.133        ansible_user=ubuntu
+ubuntu-lab-11-worker-1  ansible_ssh_host=192.168.122.134        ansible_user=ubuntu
+ubuntu-lab-11-worker-2  ansible_ssh_host=192.168.122.135        ansible_user=ubuntu
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 ansible_ssh_user=ubuntu
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ansible_ssh_private_key_file=ansible-ssh-key
-

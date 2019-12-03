@@ -14,7 +14,7 @@
         backup: yes
     - name: Update Ubuntu's hosts file
       copy:
-        src: k8s-new-3nodes.txt
+        src: k8s-new-12g.txt
         dest: /etc/hosts
         owner: root
         group: root
