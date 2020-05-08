@@ -13,7 +13,6 @@ k8s_packages:
   - kubeadm=1.17.4-00
   - kubectl=1.17.4-00
 k8s_external_registry: registry.cn-beijing.aliyuncs.com/thedada99/k8s-mirror/k8s.gcr.io
-k8s_internal_registry: 192.168.122.1:5000
+k8s_internal_registry: 10.163.213.25:89
 k8s_internal_registry_project: library
-k8s_internal_registry_username: k8s
-
+k8s_internal_registry_username: lslab

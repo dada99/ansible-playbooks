@@ -1,2 +1,2 @@
-#external: true  # true for extenal,otherwise false
+external: false  # true for extenal,otherwise false
 #install_file_path: $HOME/installed_files
