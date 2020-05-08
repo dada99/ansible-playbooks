@@ -1,6 +1,12 @@
 #For role test
 ---
 - hosts: all
+  vars_prompt: 
+    - name: harbor_user_name
+      prompt: "Input Your Harbor's username"
+      private: no
+    - name: harbor_user_password
+      prompt: "Input Your Harbor's password"
   gather_facts: yes
   #become: yes
   roles: 
