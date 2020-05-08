@@ -1,0 +1,10 @@
+#For role test
+---
+- hosts: all
+  gather_facts: yes
+  #become: yes
+  roles: 
+    # - role: ubuntu-common
+    #   become: yes 
+    - role: kubernetes-common
+      
