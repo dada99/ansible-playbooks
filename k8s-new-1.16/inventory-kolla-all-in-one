@@ -1,0 +1,5 @@
+kolla-all-in-one	ansible_ssh_host=192.168.122.200	ansible_user=ubuntu
+[all:vars]
+#ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_user=ubuntu
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

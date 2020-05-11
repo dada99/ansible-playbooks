@@ -37,7 +37,7 @@
     group: root
     mode: 0644
     backup: yes      
-  when: external == false
+  
 
 - name: Copy Docker's offical GPG key
   copy:

@@ -1,0 +1,27 @@
+---
+-
+#Pull k8s's extra images and files, such as dashboard,metric server
+- name: Pull k8s's extra images(external)
+  docker_image:
+    name: "{{ item }}"
+  with_items:
+    - {"kubernetesui/dashboard:v2.0.0"}
+    - {"kubernetesui/metrics-scraper:v1.0.1"}
+  when: external == true 
+
+
+- name: Pull k8s's extra images(internal)
+  docker_image:
+    name: "{{ item.name }}"
+    repository: "{{ item.repository }}"
+  with_items:
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/dashboard:v2.0.0", repository: "kubernetesui/dashboard:v2.0.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/metrics-scraper:v1.0.1", repository: "kubernetesui/metrics-scraper:v1.0.1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
+    
+  when: external == false 
+
+- name: Copy k8s dashboard and metric server file
+  copy:
+    src: "{{ k8s_dashboard_file }}"
+    dest: "{{ yaml_file_path }}/{{ k8s_dashboard_file }}"
