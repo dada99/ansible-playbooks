@@ -1,8 +1,7 @@
 127.0.0.1	localhost
-192.168.122.14 ubuntu-ceph-mon-mgr
-192.168.122.15 ubuntu-ceph-host-1
-192.168.122.16 ubuntu-ceph-host-2
-192.168.122.17 ubuntu-ceph-host-3
+192.168.122.103    ubuntu-lab-ceph-ansible-1
+192.168.122.104    ubuntu-lab-ceph-ansible-2
+192.168.122.105    ubuntu-lab-ceph-ansible-3
 ::1	localhost ip6-localhost ip6-loopback
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters

@@ -4,7 +4,8 @@
   gather_facts: false
   become: yes
   vars:
-    ceph_user: doceph
+    ceph_user: cephadmin
+    ceph_user_password: passw0rd
   tasks:
     - name: Update Ubuntu's hosts file
       copy:
@@ -74,29 +75,32 @@
     - name: Remove dependencies that are no longer required
       apt:
         autoremove: yes
+        
     - name: Add new user for Ceph
       user: 
         name: "{{ ceph_user }}"
+        password: "{{ ceph_user_password | password_hash('sha512')}}"
 
-    - name: Copy SSH privated key to new user's home    
-      copy:
-        src: ssh-key-private
-        dest: /home/{{ ceph_user }}/.ssh/
+    # - name: Copy SSH privated key to new user's home    
+    #   copy:
+    #     src: ssh-key-private
+    #     dest: /home/{{ ceph_user }}/.ssh/
         
-    - name: Renam SSH key
-      file:
-        src: /home/{{ ceph_user }}/.ssh/ssh-key-private
-        dest: /home/{{ ceph_user }}/.ssh/id_rsa   
-        mode: 0600
-        state: link
-    - name: Set SSH key
-      authorized_key:
-        user: "{{ ceph_user }}"
-        state: present
-        key: '{{ item }}'
-        #validate_certs: False
-      with_file:
-        - ssh-key-private.pub  
+    # - name: Renam SSH key
+    #   file:
+    #     src: /home/{{ ceph_user }}/.ssh/ssh-key-private
+    #     dest: /home/{{ ceph_user }}/.ssh/id_rsa   
+    #     mode: 0600
+    #     state: link
+
+    # - name: Set SSH key
+    #   authorized_key:
+    #     user: "{{ ceph_user }}"
+    #     state: present
+    #     key: '{{ item }}'
+    #     #validate_certs: False
+    #   with_file:
+    #     - ssh-key-private.pub  
 
     - name: Add new user to sudo list
       lineinfile: 
@@ -106,5 +110,14 @@
         validate: 'visudo -cf %s'
       with_items: 
         - "{{ ceph_user }} ALL= (root) NOPASSWD:ALL"
+    
+    - name: Copy Ceph's Repo APT key
+      copy:
+        src: ceph_repo_release.asc
+        dest: /home/ubuntu/ceph_repo_release.asc
+
+    - name: Add Ceph APT key
+      apt_key:
+        file: /home/ubuntu/ceph_repo_release.asc        
                  
   

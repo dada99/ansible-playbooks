@@ -1,9 +1,7 @@
-[ceph-daemon]
-ubuntu-ceph-daemon ansible_ssh_host=192.168.100.21 ansible_user=ubuntu
 [ceph-hosts]
-ubuntu-ceph-host-1 ansible_ssh_host=192.168.100.22 ansible_user=ubuntu
-ubuntu-ceph-host-2 ansible_ssh_host=192.168.100.23 ansible_user=ubuntu
-ubuntu-ceph-host-3 ansible_ssh_host=192.168.100.24 ansible_user=ubuntu
+ubuntu-ceph-host-1 ansible_ssh_host=192.168.100.103 ansible_user=ubuntu
+ubuntu-ceph-host-2 ansible_ssh_host=192.168.100.104 ansible_user=ubuntu
+ubuntu-ceph-host-3 ansible_ssh_host=192.168.100.105 ansible_user=ubuntu
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 ansible_ssh_user=ubuntu
