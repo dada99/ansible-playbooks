@@ -3,6 +3,7 @@
 google_aptkey_file: apt-key-google.gpg
 user_home: $HOME
 install_file_path: installed_files #Path to store files on target 
+yaml_file_path: yaml_files #Path to store files for lab use case
 external: true  # true for extenal,otherwise false
 pip_docker_packages_path: pip-docker-packages # path for files to offline install pip's docker module
 k8s_apt_repo_external: deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main
@@ -16,3 +17,4 @@ k8s_external_registry: registry.cn-beijing.aliyuncs.com/thedada99/k8s-mirror/k8s
 k8s_internal_registry: 10.163.213.25:89
 k8s_internal_registry_project: library
 k8s_internal_registry_username: lslab
+k8s_dashboard_file: kubernetes-dashboard.yml

@@ -7,6 +7,12 @@
     state: directory
     mode: '0755' 
 
+- name: Create a directory for use case tall files
+  file:
+    path: "{{ user_home }}/{{ k8s_dashboard_file }}"
+    state: directory
+    mode: '0755' 
+
 - name: Copy pip's docker packages to nodes for offline install
     # Offline packages are not included in this repo
   copy:
@@ -34,16 +40,19 @@
     src: "{{ google_aptkey_file }}"
     dest: "{{ install_file_path }}/{{ google_aptkey_file }}"
   register: google_aptkey
+  
 - name: Add Google's official GPG key
   become: yes
   apt_key:
     id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
     file: "{{ google_aptkey.dest }}"
+    
 - name: Add k8s APT source link
   become: yes
   lineinfile:
     path: /etc/apt/sources.list
     line: "{{ k8s_apt_repo_external if (external == true) else k8s_apt_repo_internal }}"
+
 - name: Install kubernetes tools
   become: yes
   apt: 
@@ -99,3 +108,4 @@
     path: /pv_local
     state: directory
     mode: '0755' 
+- include: k8s-extra.yml
