@@ -1,6 +1,12 @@
 ---
 # tasks file for ubuntu-common
-- name: Update Ubuntu's Apt repo file with updated server infomation 
+- name: Create a directory for install files
+  file:
+    path: "/home/ubuntu/{{ install_file_path }}"
+    state: directory
+    mode: '0755' 
+
+- name: Update Ubuntu's APT repo file with updated server infomation 
   copy:
     src: "{{ external_apt_source_file }}"
     dest: /etc/apt/sources.list
@@ -10,7 +16,7 @@
     backup: yes
   when: external == true
 
-- name: Update Ubuntu's Apt repo file with updated server infomation 
+- name: Update Ubuntu's APT repo file with updated server infomation 
   copy:
     src: "{{ internal_apt_source_file }}"
     dest: /etc/apt/sources.list
@@ -22,7 +28,7 @@
 
 - name: Update Ubuntu's hosts file
   copy:
-    src: local-hosts
+    src: hosts
     dest: /etc/hosts
     owner: root
     group: root
@@ -42,11 +48,14 @@
 - name: Copy Docker's offical GPG key
   copy:
     src: docker.gpg
-    dest: /home/ubuntu/docker.gpg
+    dest: "/home/ubuntu/{{ install_file_path }}/docker.gpg"
+
 - name: Add Docker's official GPG key
   apt_key:
     id: "{{ docker_gpg_key }}"
-    file: /home/ubuntu/docker.gpg    
+    file: "/home/ubuntu/{{ install_file_path }}/docker.gpg"    
+
+    
 - name: Update Apt with latest information
   apt:
     update_cache: yes
@@ -58,11 +67,11 @@
 - name: Copy libseccomp2 deb 
   copy:
     src: libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb
-    dest: /home/ubuntu/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb
+    dest: "/home/ubuntu/{{ install_file_path }}/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb"
 
 - name: Install libseccomp2 deb 
   apt:
-    deb: /home/ubuntu/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb
+    deb: "/home/ubuntu/{{ install_file_path }}/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb"
 
 - name: Install Docker CE
   apt:
@@ -104,7 +113,8 @@
 - name: Change Time zone to CST
   file:
     src: /usr/share/zoneinfo/Asia/Shanghai
-    dest: /etc/localtime  
+    dest: /etc/localtime 
+     
 - name: Remove Python2
   apt:
     name: python

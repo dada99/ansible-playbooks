@@ -17,7 +17,7 @@
   with_items:
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/dashboard:v2.0.0", repository: "kubernetesui/dashboard:v2.0.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/metrics-scraper:v1.0.1", repository: "kubernetesui/metrics-scraper:v1.0.1"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
+
     
   when: external == false 
 

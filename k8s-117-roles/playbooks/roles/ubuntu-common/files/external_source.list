@@ -1,7 +1,4 @@
 deb [arch=amd64] https://mirror.azure.cn/docker-ce/linux/ubuntu xenial stable
-deb http://cn.archive.ubuntu.com/ubuntu xenial main restricted universe multiverse
-deb http://cn.archive.ubuntu.com/ubuntu xenial-updates  restricted universe multiverse
-deb http://cn.archive.ubuntu.com/ubuntu xenial-security restricted universe multiverse
-
-#deb http://10.163.213.25:88/ubuntu xenial-updates main restricted universe multiverse
-#deb http://10.163.213.25:88/ubuntu xenial-security main restricted universe multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial main restricted universe multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-updates  restricted universe multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-security restricted universe multiverse
