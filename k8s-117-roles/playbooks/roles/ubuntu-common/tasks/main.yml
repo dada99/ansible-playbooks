@@ -5,6 +5,8 @@
     path: "/home/ubuntu/{{ install_file_path }}"
     state: directory
     mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
 
 - name: Update Ubuntu's APT repo file with updated server infomation 
   copy:

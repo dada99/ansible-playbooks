@@ -83,18 +83,4 @@
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
   when: external == false 
 
-
-- name: Create a directory for hostPath Volume
-  become: yes
-  file:
-    path: /host_path_storage
-    state: directory
-    mode: '0755'        
-
-- name: Create a directory for local PV
-  become: yes
-  file:
-    path: /pv_local
-    state: directory
-    mode: '0755' 
 - include: k8s-extra.yml

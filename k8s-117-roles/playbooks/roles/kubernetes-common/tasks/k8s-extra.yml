@@ -1,5 +1,43 @@
 ---
--
+- name: Create a directory for hostPath Volume
+  become: yes
+  file:
+    path: /host_path_storage
+    state: directory
+    mode: '0755'        
+
+- name: Create a directory for local PV
+  become: yes
+  file:
+    path: /pv_local
+    state: directory
+    mode: '0755' 
+
+- name: Create a directory for install files
+  file:
+    path: "/home/ubuntu/{{ yaml_file_path }}"
+    state: directory
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
+
+- name: Create a directory for binary tools
+  file:
+    path: "/home/ubuntu/bin"
+    state: directory
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu 
+
+- name: Copy Helm 3 client 
+  copy:
+    src: bin/helm
+    dest: /home/ubuntu/bin
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
+
+
 #Pull k8s's extra images and files, such as dashboard,metric server
 - name: Pull k8s's extra images(external)
   docker_image:
@@ -7,6 +45,7 @@
   with_items:
     - {"kubernetesui/dashboard:v2.0.0"}
     - {"kubernetesui/metrics-scraper:v1.0.1"}
+    - {"quay.io/coreos/flannel:v0.12.0-amd64"}
   when: external == true 
 
 
@@ -17,7 +56,7 @@
   with_items:
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/dashboard:v2.0.0", repository: "kubernetesui/dashboard:v2.0.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/metrics-scraper:v1.0.1", repository: "kubernetesui/metrics-scraper:v1.0.1"}
-
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/coreos/flannel:v0.12.0-amd64", repository: "quay.io/coreos/flannel:v0.12.0-amd64"}
     
   when: external == false 
 
@@ -25,3 +64,83 @@
   copy:
     src: "{{ k8s_dashboard_file }}"
     dest: "{{ yaml_file_path }}/{{ k8s_dashboard_file }}"
+
+- name: Copy Flannel YAML file
+  copy:
+    src: "{{ k8s_flannel_file }}"
+    dest: "{{ yaml_file_path }}/{{ k8s_flannel_file }}"
+
+- name: Copy Calico YAML file
+  copy:
+    src: "{{ k8s_calico_file }}"
+    dest: "{{ yaml_file_path }}/{{ k8s_calico_file }}"    
+
+
+
+#Pull typical image for lab exercises, such as Nginx,Busybox, etc.
+- name: Pull k8s's extra images(external)
+  docker_image:
+    name: "{{ item }}"
+  with_items:
+    - {"nginx:1.7.9"}
+    - {"nginx:1.9.1"}
+    - {"busybox:1.31-glibc"}
+    - {"quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1"}
+    - {"prom/alertmanager:v0.21.0"}
+    - {"jimmidyson/configmap-reload:v0.3.0"}
+    - {"prom/node-exporter:v1.0.1"}
+    - {"prom/pushgateway:v1.2.0"}
+    - {"prom/prometheus:v2.19.0"}
+    - {"quay.io/coreos/kube-state-metrics:v1.9.7"}
+  when: external == true 
+
+
+- name: Pull k8s's extra images(internal)
+  docker_image:
+    name: "{{ item.name }}"
+    repository: "{{ item.repository }}"
+  with_items:
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/nginx:1.7.9", repository: "nginx:1.7.9"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/nginx:1.9.1", repository: "nginx:1.9.1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/busybox:1.31-glibc", repository: "busybox:1.31"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1", repository: "kubernetes-ingress-controller/nginx-ingress-controller:0.26.1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/prom/alertmanager:v0.21.0", repository: "prom/alertmanager:v0.21.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/jimmidyson/configmap-reload:v0.3.0", repository: "jimmidyson/configmap-reload:v0.3.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/prom/node-exporter:v1.0.1", repository: "prom/node-exporter:v1.0.1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/prom/pushgateway:v1.2.0", repository: "prom/pushgateway:v1.2.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/prom/prometheus:v2.19.0", repository: "prom/prometheus:v2.19.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/coreos/kube-state-metrics:v1.9.7", repository: "quay.io/coreos/kube-state-metrics:v1.9.7"}
+
+    
+  when: external == false 
+
+- name: Copy YAML files for training lab
+  copy:
+    src: yamls/{{ item.src }}
+    dest: /home/ubuntu/{{ yaml_file_path }}/{{ item.dest }}/
+  become: yes  
+  with_items:
+    - { src: pod/busybox-pod-v1.yaml , dest: pod }
+    - { src: pod/busybox-pod-v1-init-container.yaml, dest: pod }
+    - { src: deployment/nginx-deployment-v1.yaml, dest: deployment }
+    - { src: deployment/busybox-deployment-v1.yaml, dest: deployment }
+    - { src: deployment/configmap/flavor, dest: deploymentconfigmap }
+    - { src: deployment/configmap/userinfo, dest: deploymentconfigmap }
+    - { src: storage/busybox-deployment-vol-v1.yaml, dest: storage }
+    - { src: storage/pv-local-1g.yaml, dest: storage }
+    - { src: storage/pvc-local-1g.yaml , dest: storage }
+    - { src: storage/nginx-pod-pvc-local.yaml, dest: storage }
+    - { src: security/role-pod-view.yaml , dest: security }
+    - { src: security/rolebinding-user1.yaml, dest: security }
+    - { src: security/clusterrole-pod-view.yaml, dest: security }
+    - { src: security/clusterrolebinding-pod-view.yaml, dest: security }
+    - { src: security/busybox-pod-v1.yaml, dest: security }
+    - { src: namespace/limitrange-mem-cpu-v1.yaml, dest: namespace }
+    - { src: namespace/load.sh, dest: namespace }
+    - { src: namespace/busybox-pod-v1.yaml , dest: namespace }
+    - { src: namespace/resourcequota-v1.yaml, dest: namespace }
+    - { src: network-service/nginx-pod-v1.yaml , dest: network-service }
+    - { src: network-service/service-nginx-v1.yaml, dest: network-service }
+    - { src: network-service/ingress-nginx-v1.yaml, dest: network-service }
+           
+  
