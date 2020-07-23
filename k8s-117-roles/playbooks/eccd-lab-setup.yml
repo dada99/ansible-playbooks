@@ -1,0 +1,23 @@
+#For role test
+---
+#- hosts: all
+  # vars_prompt: 
+  #   - name: harbor_user_name
+  #     prompt: "Input Your Harbor's username"
+  #     private: no
+  #   - name: harbor_user_password
+  #     prompt: "Input Your Harbor's password"
+
+   
+- name: Extra setup for ECCD cousre exercise based on ECCD
+  hosts: master,worker
+  become: yes
+  tasks:
+    # - name: Copy daemon.json
+    #   copy:
+    #     src: daemon.json       
+    #     dest: /etc/docker/daemon.json
+    - include_role:
+        name: kubernetes-common
+        tasks_from: k8s-extra-eccd
+      

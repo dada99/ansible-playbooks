@@ -38,28 +38,6 @@
     group: ubuntu
 
 
-#Pull k8s's extra images and files, such as dashboard,metric server
-- name: Pull k8s's extra images(external)
-  docker_image:
-    name: "{{ item }}"
-  with_items:
-    - {"kubernetesui/dashboard:v2.0.0"}
-    - {"kubernetesui/metrics-scraper:v1.0.1"}
-    - {"quay.io/coreos/flannel:v0.12.0-amd64"}
-  when: external == true 
-
-
-- name: Pull k8s's extra images(internal)
-  docker_image:
-    name: "{{ item.name }}"
-    repository: "{{ item.repository }}"
-  with_items:
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/dashboard:v2.0.0", repository: "kubernetesui/dashboard:v2.0.0"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/metrics-scraper:v1.0.1", repository: "kubernetesui/metrics-scraper:v1.0.1"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/coreos/flannel:v0.12.0-amd64", repository: "quay.io/coreos/flannel:v0.12.0-amd64"}
-    
-  when: external == false 
-
 - name: Copy k8s dashboard and metric server file
   copy:
     src: "{{ k8s_dashboard_file }}"
@@ -73,7 +51,17 @@
 - name: Copy Calico YAML file
   copy:
     src: "{{ k8s_calico_file }}"
-    dest: "{{ yaml_file_path }}/{{ k8s_calico_file }}"    
+    dest: "{{ yaml_file_path }}/{{ k8s_calico_file }}" 
+
+- name: Copy Metallb YAML files
+  copy:
+    src: "metallb/"
+    dest: "{{ yaml_file_path }}/metallb"
+
+- name: Copy Ceph CSI YAML files
+  copy:
+    src: "ceph-csi/"
+    dest: "{{ yaml_file_path }}/ceph-csi"       
 
 
 
@@ -82,6 +70,9 @@
   docker_image:
     name: "{{ item }}"
   with_items:
+    - {"kubernetesui/dashboard:v2.0.0"}
+    - {"kubernetesui/metrics-scraper:v1.0.1"}
+    - {"quay.io/coreos/flannel:v0.12.0-amd64"}
     - {"nginx:1.7.9"}
     - {"nginx:1.9.1"}
     - {"busybox:1.31-glibc"}
@@ -92,6 +83,14 @@
     - {"prom/pushgateway:v1.2.0"}
     - {"prom/prometheus:v2.19.0"}
     - {"quay.io/coreos/kube-state-metrics:v1.9.7"}
+    - {"metallb/speaker:v0.9.3"}
+    - {"metallb/controller:v0.9.3"}
+    - {"quay.io/k8scsi/csi-provisioner:v1.6.0"}
+    - {"quay.io/k8scsi/csi-snapshotter:v2.1.0"}
+    - {"quay.io/k8scsi/csi-attacher:v2.1.1"}
+    - {"quay.io/k8scsi/csi-resizer:v0.5.0"}
+    - {"quay.io/cephcsi/cephcsi:canary"}
+    - {"quay.io/k8scsi/csi-node-driver-registrar:v1.3.0"}
   when: external == true 
 
 
@@ -100,6 +99,9 @@
     name: "{{ item.name }}"
     repository: "{{ item.repository }}"
   with_items:
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/dashboard:v2.0.0", repository: "kubernetesui/dashboard:v2.0.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/metrics-scraper:v1.0.1", repository: "kubernetesui/metrics-scraper:v1.0.1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/coreos/flannel:v0.12.0-amd64", repository: "quay.io/coreos/flannel:v0.12.0-amd64"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/nginx:1.7.9", repository: "nginx:1.7.9"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/nginx:1.9.1", repository: "nginx:1.9.1"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/busybox:1.31-glibc", repository: "busybox:1.31"}
@@ -110,6 +112,14 @@
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/prom/pushgateway:v1.2.0", repository: "prom/pushgateway:v1.2.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/prom/prometheus:v2.19.0", repository: "prom/prometheus:v2.19.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/coreos/kube-state-metrics:v1.9.7", repository: "quay.io/coreos/kube-state-metrics:v1.9.7"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/metallb/speaker:v0.9.3", repository: "metallb/speaker:v0.9.3"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/metallb/controller:v0.9.3", repository: "metallb/controller:v0.9.3"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-provisioner:v1.6.0", repository: "quay.io/k8scsi/csi-provisioner:v1.6.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-snapshotter:v2.1.0", repository: "quay.io/k8scsi/csi-snapshotter:v2.1.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-attacher:v2.1.1", repository: "quay.io/k8scsi/csi-attacher:v2.1.1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-resizer:v0.5.0", repository: "quay.io/k8scsi/csi-resizer:v0.5.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-node-driver-registrar:v1.3.0", repository: "quay.io/k8scsi/csi-node-driver-registrar:v1.3.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/cephcsi/cephcsi:canary", repository: "quay.io/cephcsi/cephcsi:canary"}
 
     
   when: external == false 

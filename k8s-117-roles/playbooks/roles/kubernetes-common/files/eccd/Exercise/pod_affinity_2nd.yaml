@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-site2
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - "db"
+        topologyKey: nodeName
+  containers:
+  - name: cont2 
+    image: gcr.io/google-samples/node-hello:1.0
+    ports:
+      - containerPort: 88
+

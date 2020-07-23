@@ -1,5 +1,4 @@
 ---
-- 
 # tasks file for kubernetes-common
 
 - name: Copy pip's docker packages to nodes for offline install
