@@ -1,14 +1,14 @@
 #For role test
 ---
 - hosts: all
-  # vars_prompt: 
-  #   - name: harbor_user_name
-  #     prompt: "Input Your Harbor's username"
-  #     private: no
-  #   - name: harbor_user_password
-  #     prompt: "Input Your Harbor's password"
+  vars_prompt: 
+    - name: k8s_internal_registry_username
+      prompt: "Input Your Harbor's username"
+      private: no
+    - name: k8s_internal_registry_password
+      prompt: "Input Your Harbor's password"
    
-  gather_facts: yes
+  gather_facts: no
   roles: 
     - role: kubernetes-common
       

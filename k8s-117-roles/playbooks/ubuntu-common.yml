@@ -1,7 +1,8 @@
 #For role test
 ---
 - hosts: all
-  gather_facts: yes
+  gather_facts: no
+  become: yes
   roles: 
     - role: ubuntu-common
       

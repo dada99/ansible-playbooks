@@ -66,32 +66,32 @@
 
 
 #Pull typical image for lab exercises, such as Nginx,Busybox, etc.
-- name: Pull k8s's extra images(external)
-  docker_image:
-    name: "{{ item }}"
-  with_items:
-    - {"kubernetesui/dashboard:v2.0.0"}
-    - {"kubernetesui/metrics-scraper:v1.0.1"}
-    - {"quay.io/coreos/flannel:v0.12.0-amd64"}
-    - {"nginx:1.7.9"}
-    - {"nginx:1.9.1"}
-    - {"busybox:1.31-glibc"}
-    - {"quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1"}
-    - {"prom/alertmanager:v0.21.0"}
-    - {"jimmidyson/configmap-reload:v0.3.0"}
-    - {"prom/node-exporter:v1.0.1"}
-    - {"prom/pushgateway:v1.2.0"}
-    - {"prom/prometheus:v2.19.0"}
-    - {"quay.io/coreos/kube-state-metrics:v1.9.7"}
-    - {"metallb/speaker:v0.9.3"}
-    - {"metallb/controller:v0.9.3"}
-    - {"quay.io/k8scsi/csi-provisioner:v1.6.0"}
-    - {"quay.io/k8scsi/csi-snapshotter:v2.1.0"}
-    - {"quay.io/k8scsi/csi-attacher:v2.1.1"}
-    - {"quay.io/k8scsi/csi-resizer:v0.5.0"}
-    - {"quay.io/cephcsi/cephcsi:canary"}
-    - {"quay.io/k8scsi/csi-node-driver-registrar:v1.3.0"}
-  when: external == true 
+# - name: Pull k8s's extra images(external)
+#   docker_image:
+#     name: "{{ item }}"
+#   with_items:
+#     - {"kubernetesui/dashboard:v2.0.0"}
+#     - {"kubernetesui/metrics-scraper:v1.0.1"}
+#     - {"quay.io/coreos/flannel:v0.12.0-amd64"}
+#     - {"nginx:1.7.9"}
+#     - {"nginx:1.9.1"}
+#     - {"busybox:1.31-glibc"}
+#     - {"quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1"}
+#     - {"prom/alertmanager:v0.21.0"}
+#     - {"jimmidyson/configmap-reload:v0.3.0"}
+#     - {"prom/node-exporter:v1.0.1"}
+#     - {"prom/pushgateway:v1.2.0"}
+#     - {"prom/prometheus:v2.19.0"}
+#     - {"quay.io/coreos/kube-state-metrics:v1.9.7"}
+#     - {"metallb/speaker:v0.9.3"}
+#     - {"metallb/controller:v0.9.3"}
+#     - {"quay.io/k8scsi/csi-provisioner:v1.6.0"}
+#     - {"quay.io/k8scsi/csi-snapshotter:v2.1.0"}
+#     - {"quay.io/k8scsi/csi-attacher:v2.1.1"}
+#     - {"quay.io/k8scsi/csi-resizer:v0.5.0"}
+#     - {"quay.io/cephcsi/cephcsi:canary"}
+#     - {"quay.io/k8scsi/csi-node-driver-registrar:v1.3.0"}
+#   when: external == true 
 
 
 - name: Pull k8s's extra images(internal)
@@ -120,9 +120,8 @@
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-resizer:v0.5.0", repository: "quay.io/k8scsi/csi-resizer:v0.5.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-node-driver-registrar:v1.3.0", repository: "quay.io/k8scsi/csi-node-driver-registrar:v1.3.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/cephcsi/cephcsi:canary", repository: "quay.io/cephcsi/cephcsi:canary"}
-
     
-  when: external == false 
+#  when: external == false 
 
 - name: Copy YAML files for training lab
   copy:

@@ -47,26 +47,26 @@
     name: "{{ k8s_packages }}"
     update_cache: yes
 
-- name: Pull kubernetes base images(external)
-  docker_image:
-    name: "{{ item.name }}"
-    repository: "{{ item.repository }}"
-  with_items:
-    - {name: "{{ k8s_external_registry }}/kube-proxy:v1.17.4", repository: "k8s.gcr.io/kube-proxy:v1.17.4"}
-    - {name: "{{ k8s_external_registry }}/kube-controller-manager:v1.17.4", repository: "k8s.gcr.io/kube-controller-manager:v1.17.4"}
-    - {name: "{{ k8s_external_registry }}/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
-    - {name: "{{ k8s_external_registry }}/kube-scheduler:v1.17.4", repository: "k8s.gcr.io/kube-scheduler:v1.17.4"}
-    - {name: "{{ k8s_external_registry }}/coredns:1.6.5", repository: "k8s.gcr.io/coredns:1.6.5"}
-    - {name: "{{ k8s_external_registry }}/etcd:3.4.3-0", repository: "k8s.gcr.io/etcd:3.4.3-0"}
-    - {name: "{{ k8s_external_registry }}/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
-  when: external == true 
+# - name: Pull kubernetes base images(external)
+#   docker_image:
+#     name: "{{ item.name }}"
+#     repository: "{{ item.repository }}"
+#   with_items:
+#     - {name: "{{ k8s_external_registry }}/kube-proxy:v1.17.4", repository: "k8s.gcr.io/kube-proxy:v1.17.4"}
+#     - {name: "{{ k8s_external_registry }}/kube-controller-manager:v1.17.4", repository: "k8s.gcr.io/kube-controller-manager:v1.17.4"}
+#     - {name: "{{ k8s_external_registry }}/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
+#     - {name: "{{ k8s_external_registry }}/kube-scheduler:v1.17.4", repository: "k8s.gcr.io/kube-scheduler:v1.17.4"}
+#     - {name: "{{ k8s_external_registry }}/coredns:1.6.5", repository: "k8s.gcr.io/coredns:1.6.5"}
+#     - {name: "{{ k8s_external_registry }}/etcd:3.4.3-0", repository: "k8s.gcr.io/etcd:3.4.3-0"}
+#     - {name: "{{ k8s_external_registry }}/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
+#   when: external == true 
 
 - name: Log into local registry
   docker_login:
     registry: "{{ k8s_internal_registry }}"
     username: "{{ k8s_internal_registry_username }}"
     password: "{{ k8s_internal_registry_password }}"
-  when: external == false
+  #when: external == false
 
 - name: Pull kubernetes base images(internal)
   docker_image:
@@ -80,6 +80,19 @@
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/coredns:1.6.5", repository: "k8s.gcr.io/coredns:1.6.5"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/etcd:3.4.3-0", repository: "k8s.gcr.io/etcd:3.4.3-0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
-  when: external == false 
+  #when: external == false 
+
+- name: Remove duplicate GCR images(internal)
+  docker_image:
+    name: "{{ item.name }}"
+    state: absent
+  with_items:
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-proxy:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-controller-manager:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-apiserver:v1.17.4"}  
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-scheduler:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/coredns:1.6.5"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/etcd:3.4.3-0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.1"}  
 
 - include: k8s-extra.yml

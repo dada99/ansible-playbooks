@@ -1,6 +1,6 @@
 ---
 # defaults file for ubuntu-common
-external: true  # true for external,otherwise false
+external: false  # true for external,otherwise false
 external_apt_source_file: "external_source.list"
 internal_apt_source_file: "internal_source.list"
 docker_gpg_key: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
