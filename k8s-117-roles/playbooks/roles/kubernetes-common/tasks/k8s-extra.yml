@@ -21,6 +21,14 @@
     owner: ubuntu
     group: ubuntu
 
+- name: Create a directory for 3pp files
+  file:
+    path: "/home/ubuntu/{{ app_file_path }}"
+    state: directory
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
+
 - name: Create a directory for binary tools
   file:
     path: "/home/ubuntu/bin"
@@ -41,27 +49,42 @@
 - name: Copy k8s dashboard and metric server file
   copy:
     src: "{{ k8s_dashboard_file }}"
-    dest: "{{ yaml_file_path }}/{{ k8s_dashboard_file }}"
+    dest: "{{ app_file_path }}/{{ k8s_dashboard_file }}"
+
+- name: Copy metric server file
+  copy:
+    src: "metric-server/"
+    dest: "{{ app_file_path }}/metric-server"
 
 - name: Copy Flannel YAML file
   copy:
     src: "{{ k8s_flannel_file }}"
-    dest: "{{ yaml_file_path }}/{{ k8s_flannel_file }}"
+    dest: "{{ app_file_path }}/{{ k8s_flannel_file }}"
 
 - name: Copy Calico YAML file
   copy:
-    src: "{{ k8s_calico_file }}"
-    dest: "{{ yaml_file_path }}/{{ k8s_calico_file }}" 
+    src: "{{ k8s_calico_operator_file }}"
+    dest: "{{ app_file_path }}/{{ k8s_calico_operator_file }}" 
+
+- name: Copy Calico YAML file
+  copy:
+    src: "{{ k8s_calico_crd_file }}"
+    dest: "{{ app_file_path }}/{{ k8s_calico_crd_file }}"     
 
 - name: Copy Metallb YAML files
   copy:
     src: "metallb/"
-    dest: "{{ yaml_file_path }}/metallb"
+    dest: "{{ app_file_path }}/metallb"
 
 - name: Copy Ceph CSI YAML files
   copy:
     src: "ceph-csi/"
-    dest: "{{ yaml_file_path }}/ceph-csi"       
+    dest: "{{ app_file_path }}/ceph-csi"
+
+- name: Copy Admin SA YAML files
+  copy:
+    src: "admin-service-account.yml"
+    dest: "{{ app_file_path }}/admin-service-account.yml"           
 
 
 
@@ -101,7 +124,7 @@
   with_items:
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/dashboard:v2.0.0", repository: "kubernetesui/dashboard:v2.0.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/kubernetesui/metrics-scraper:v1.0.1", repository: "kubernetesui/metrics-scraper:v1.0.1"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/coreos/flannel:v0.12.0-amd64", repository: "quay.io/coreos/flannel:v0.12.0-amd64"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/coreos/flannel:v0.13.0", repository: "quay.io/coreos/flannel:v0.13.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/nginx:1.7.9", repository: "nginx:1.7.9"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/nginx:1.9.1", repository: "nginx:1.9.1"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/busybox:1.31-glibc", repository: "busybox:1.31"}
@@ -120,7 +143,9 @@
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-resizer:v0.5.0", repository: "quay.io/k8scsi/csi-resizer:v0.5.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/k8scsi/csi-node-driver-registrar:v1.3.0", repository: "quay.io/k8scsi/csi-node-driver-registrar:v1.3.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/cephcsi/cephcsi:canary", repository: "quay.io/cephcsi/cephcsi:canary"}
-    
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/quay.io/tigera/operator:v1.10.7", repository: "quay.io/tigera/operator:v1.10.7"}    
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/docker.io/calico/pod2daemon-flexvol:v3.16.4", repository: "docker.io/calico/pod2daemon-flexvol:v3.16.4"} 
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/metrics-server/metrics-server:v0.4.0", repository: "k8s.gcr.io/metrics-server/metrics-server:v0.4.0"}        
 #  when: external == false 
 
 - name: Copy YAML files for training lab
@@ -152,4 +177,16 @@
     - { src: network-service/service-nginx-v1.yaml, dest: network-service }
     - { src: network-service/ingress-nginx-v1.yaml, dest: network-service }
            
-  
+- name: Remove duplicate GCR images
+  docker_image:
+    name: "{{ item.name }}"
+    state: absent
+  with_items:
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-proxy:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-controller-manager:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-apiserver:v1.17.4"}  
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-scheduler:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/coredns:1.6.5"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/etcd:3.4.3-0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.1"} 
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/metrics-server/metrics-server:v0.4.0"} 

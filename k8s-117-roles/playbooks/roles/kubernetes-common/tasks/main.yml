@@ -6,7 +6,6 @@
   copy:
     src: "{{ pip_docker_packages_path }}" # This name maybe different
     dest: "{{ user_home }}/{{ install_file_path }}"
-  when: external == false
   register: pip_docker_packages
 
 - name: pip install docker offline packages
@@ -14,14 +13,14 @@
     requirements: "{{ pip_docker_packages.dest }}pip-docker-packages/requirements.txt"
     #extra_args: "--user --no-index --find-links=file:///home/ubuntu/pip-docker-packages"
     extra_args: --user --no-index --find-links=file:///{{ pip_docker_packages.dest }}{{ pip_docker_packages_path }}
-  when: external == false
+ 
   
-- name: pip install docker
-  #become: ubuntu
-  pip: 
-    name: docker
-    extra_args: --user -i https://pypi.tuna.tsinghua.edu.cn/simple
-  when: external == true
+# - name: pip install docker
+#   #become: ubuntu
+#   pip: 
+#     name: docker
+#     extra_args: --user -i https://pypi.tuna.tsinghua.edu.cn/simple
+#   when: external == true
   
 - name: Copy Google's APT key
   copy:
@@ -82,7 +81,7 @@
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
   #when: external == false 
 
-- name: Remove duplicate GCR images(internal)
+- name: Remove duplicate GCR images
   docker_image:
     name: "{{ item.name }}"
     state: absent

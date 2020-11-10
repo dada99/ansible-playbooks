@@ -11,4 +11,3 @@
   gather_facts: no
   roles: 
     - role: kubernetes-common
-      
