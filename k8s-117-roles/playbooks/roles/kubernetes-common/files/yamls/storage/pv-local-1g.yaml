@@ -22,4 +22,3 @@ spec:
           operator: In
           values:
           - ubuntu-k8s-new-worker-1
-          - ubuntu-k8s-new-worker-2

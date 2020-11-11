@@ -152,14 +152,13 @@
   copy:
     src: yamls/{{ item.src }}
     dest: /home/ubuntu/{{ yaml_file_path }}/{{ item.dest }}/
-  become: yes  
   with_items:
     - { src: pod/busybox-pod-v1.yaml , dest: pod }
     - { src: pod/busybox-pod-v1-init-container.yaml, dest: pod }
     - { src: deployment/nginx-deployment-v1.yaml, dest: deployment }
     - { src: deployment/busybox-deployment-v1.yaml, dest: deployment }
-    - { src: deployment/configmap/flavor, dest: deploymentconfigmap }
-    - { src: deployment/configmap/userinfo, dest: deploymentconfigmap }
+    - { src: deployment/configmap/flavor, dest: deployment/configmap }
+    - { src: deployment/configmap/userinfo, dest: deployment/configmap }
     - { src: storage/busybox-deployment-vol-v1.yaml, dest: storage }
     - { src: storage/pv-local-1g.yaml, dest: storage }
     - { src: storage/pvc-local-1g.yaml , dest: storage }

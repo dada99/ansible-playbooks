@@ -4,3 +4,4 @@ ansible-examples/*
 k8s-new-1.14/tmp/*
 k8s-new-1.14/metrics-server/*
 k8s-new-1.14/yaml-samples/*
+k8s-117-roles/playbooks/*-bak
