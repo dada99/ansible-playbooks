@@ -1,0 +1,7 @@
+127.0.0.1       localhost
+192.168.122.100      ubuntu-lab-k8s-117-0-master   
+192.168.122.101    ubuntu-lab-k8s-117-0-worker-1   
+192.168.122.102    ubuntu-lab-k8s-117-0-worker-2  
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters

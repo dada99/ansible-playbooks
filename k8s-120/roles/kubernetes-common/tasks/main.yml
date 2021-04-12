@@ -1,0 +1,93 @@
+---
+# tasks file for kubernetes-common
+
+- name: Copy pip's docker packages to nodes for offline install
+    # Offline packages are not included in this repo
+  copy:
+    src: "{{ pip_docker_packages_path }}" # This name maybe different
+    dest: "{{ user_home }}/{{ install_file_path }}"
+  register: pip_docker_packages
+
+- name: pip install docker offline packages
+  pip: 
+    requirements: "{{ pip_docker_packages.dest }}pip-docker-packages/requirements.txt"
+    #extra_args: "--user --no-index --find-links=file:///home/ubuntu/pip-docker-packages"
+    extra_args: --user --no-index --find-links=file:///{{ pip_docker_packages.dest }}{{ pip_docker_packages_path }}
+ 
+  
+# - name: pip install docker
+#   #become: ubuntu
+#   pip: 
+#     name: docker
+#     extra_args: --user -i https://pypi.tuna.tsinghua.edu.cn/simple
+#   when: external == true
+  
+- name: Copy Google's APT key
+  copy:
+    src: "{{ google_aptkey_file }}"
+    dest: "{{ install_file_path }}/{{ google_aptkey_file }}"
+  register: google_aptkey
+  
+- name: Add Google's official GPG key
+  become: yes
+  apt_key:
+    id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
+    file: "{{ google_aptkey.dest }}"
+    
+- name: Add k8s APT source link
+  become: yes
+  lineinfile:
+    path: /etc/apt/sources.list
+    line: "{{ k8s_apt_repo_external if (external == true) else k8s_apt_repo_internal }}"
+
+- name: Install kubernetes tools
+  become: yes
+  apt: 
+    name: "{{ k8s_packages }}"
+    update_cache: yes
+
+- name: Copy kubectl bash auto-complete file
+  become: yes
+  copy:
+    src: kubectl_bash_auto
+    dest: /etc/bash_completion.d/kubectl
+    
+
+# - name: Pull kubernetes base images(external)
+#   docker_image:
+#     name: "{{ item.name }}"
+#     repository: "{{ item.repository }}"
+#   with_items:
+#     - {name: "{{ k8s_external_registry }}/kube-proxy:v1.17.4", repository: "k8s.gcr.io/kube-proxy:v1.17.4"}
+#     - {name: "{{ k8s_external_registry }}/kube-controller-manager:v1.17.4", repository: "k8s.gcr.io/kube-controller-manager:v1.17.4"}
+#     - {name: "{{ k8s_external_registry }}/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
+#     - {name: "{{ k8s_external_registry }}/kube-scheduler:v1.17.4", repository: "k8s.gcr.io/kube-scheduler:v1.17.4"}
+#     - {name: "{{ k8s_external_registry }}/coredns:1.6.5", repository: "k8s.gcr.io/coredns:1.6.5"}
+#     - {name: "{{ k8s_external_registry }}/etcd:3.4.3-0", repository: "k8s.gcr.io/etcd:3.4.3-0"}
+#     - {name: "{{ k8s_external_registry }}/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
+#   when: external == true 
+
+- name: Log into local registry
+  docker_login:
+    registry: "{{ k8s_internal_registry }}"
+    username: "{{ k8s_internal_registry_username }}"
+    password: "{{ k8s_internal_registry_password }}"
+  #when: external == false
+
+- name: Pull kubernetes base images(internal)
+  docker_image:
+    name: "{{ item.name }}"
+    repository: "{{ item.repository }}"
+  with_items:
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-proxy:v1.17.4", repository: "k8s.gcr.io/kube-proxy:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-controller-manager:v1.17.4", repository: "k8s.gcr.io/kube-controller-manager:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-scheduler:v1.17.4", repository: "k8s.gcr.io/kube-scheduler:v1.17.4"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/coredns:1.6.5", repository: "k8s.gcr.io/coredns:1.6.5"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/etcd:3.4.3-0", repository: "k8s.gcr.io/etcd:3.4.3-0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
+  #when: external == false 
+
+
+
+- include: k8s-extra.yml

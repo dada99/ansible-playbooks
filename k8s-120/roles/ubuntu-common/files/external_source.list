@@ -1,0 +1,4 @@
+deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/ xenial stable
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-updates  restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-security restricted universe multiverse

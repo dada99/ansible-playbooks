@@ -1,0 +1,47 @@
+---
+- name: Backup Docker's daemon.json file
+  shell: "mv /etc/docker/daemon.json /etc/docker/daemon-bak.json"
+
+- name: Add VLAB Harbor registry to eccd node
+  shell: jq '."insecure-registries" = ["{{ k8s_internal_registry }}"]' /etc/docker/daemon-bak.json > /etc/docker/daemon.json
+
+- name: Create a directory for Lab exercise files
+  file:
+    path: "/home/eccd/Exercise"
+    state: directory
+    mode: '0755' 
+    owner: eccd
+    group: eccd 
+
+- name: Restart Docker Service
+  become: yes 
+  service:
+    name: docker  
+    state: restarted
+
+- name: Log into local registry
+  docker_login:
+    registry: "{{ k8s_internal_registry }}"
+    username: "{{ k8s_internal_registry_username }}"
+    password: "{{ k8s_internal_registry_password }}"
+  
+- name: Pull k8s's extra images(internal)
+  docker_image:
+    name: "{{ item.name }}"
+    repository: "{{ item.repository }}"
+  with_items:
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/gcr.io/google-samples/kubernetes-bootcamp:v1", repository: "gcr.io/google-samples/kubernetes-bootcamp:v1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/gcr.io/google-samples/node-hello:1.0", repository: "gcr.io/google-samples/node-hello:1.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/nginx:1.9.1", repository: "nginx:1.9.1"}
+
+- name: Copy ECCD exercise yaml files
+  copy:
+     src: eccd/Exercise/       
+     dest: /home/eccd/Exercise/
+     mode: '0755' 
+     owner: eccd
+     group: eccd
+
+
+           
+  

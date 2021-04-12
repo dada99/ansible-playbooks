@@ -1,0 +1,26 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "nginx-deployment-v1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "nginx"
+  template:
+    metadata:
+      labels:
+        app: "nginx"
+    spec:
+      containers:
+      - name: "nginx-web"
+        image: "10.163.213.25:89/library/nginx:1.9.1"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/var/www/html"
+          name: "webroot"
+        #imagePullPolicy: Always
+      volumes:
+      - name: "webroot"
+
