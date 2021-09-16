@@ -44,8 +44,18 @@
 #     owner: root
 #     group: root
 #     mode: 0644
-#     backup: yes      
-  
+#     backup: yes   
+
+- name: Update Ubuntu's DNS file
+  lineinfile:
+    path: /etc/resolvconf/resolv.conf.d/base
+    line: "nameserver {{ external_dnsserver }}"
+
+
+- name: Restart DNS Service
+  service:
+    name: resolvconf  
+    state: restarted
 
 - name: Copy Docker's offical GPG key
   copy:

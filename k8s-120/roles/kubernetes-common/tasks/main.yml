@@ -31,8 +31,9 @@
 - name: Add Google's official GPG key
   become: yes
   apt_key:
-    id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
+    #id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
     file: "{{ google_aptkey.dest }}"
+    state: present
     
 - name: Add k8s APT source link
   become: yes
@@ -58,13 +59,13 @@
 #     name: "{{ item.name }}"
 #     repository: "{{ item.repository }}"
 #   with_items:
-#     - {name: "{{ k8s_external_registry }}/kube-proxy:v1.17.4", repository: "k8s.gcr.io/kube-proxy:v1.17.4"}
-#     - {name: "{{ k8s_external_registry }}/kube-controller-manager:v1.17.4", repository: "k8s.gcr.io/kube-controller-manager:v1.17.4"}
-#     - {name: "{{ k8s_external_registry }}/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
-#     - {name: "{{ k8s_external_registry }}/kube-scheduler:v1.17.4", repository: "k8s.gcr.io/kube-scheduler:v1.17.4"}
-#     - {name: "{{ k8s_external_registry }}/coredns:1.6.5", repository: "k8s.gcr.io/coredns:1.6.5"}
-#     - {name: "{{ k8s_external_registry }}/etcd:3.4.3-0", repository: "k8s.gcr.io/etcd:3.4.3-0"}
-#     - {name: "{{ k8s_external_registry }}/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
+#     - {name: "{{ k8s_external_registry }}/kube-proxy:v1.20.10", repository: "k8s.gcr.io/kube-proxy:v1.20.10"}
+#     - {name: "{{ k8s_external_registry }}/kube-controller-manager:v1.20.10", repository: "k8s.gcr.io/kube-controller-manager:v1.20.10"}
+#     - {name: "{{ k8s_external_registry }}/kube-apiserver:v1.20.10", repository: "k8s.gcr.io/kube-apiserver:v1.20.10"}  
+#     - {name: "{{ k8s_external_registry }}/kube-scheduler:v1.20.10", repository: "k8s.gcr.io/kube-scheduler:v1.20.10"}
+#     - {name: "{{ k8s_external_registry }}/coredns:1.7.0", repository: "k8s.gcr.io/coredns:1.7.0"}
+#     - {name: "{{ k8s_external_registry }}/etcd:3.4.13-0", repository: "k8s.gcr.io/etcd:3.4.13-0"}
+#     - {name: "{{ k8s_external_registry }}/pause:3.2", repository: "k8s.gcr.io/pause:3.2"}
 #   when: external == true 
 
 - name: Log into local registry
@@ -79,15 +80,13 @@
     name: "{{ item.name }}"
     repository: "{{ item.repository }}"
   with_items:
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-proxy:v1.17.4", repository: "k8s.gcr.io/kube-proxy:v1.17.4"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-controller-manager:v1.17.4", repository: "k8s.gcr.io/kube-controller-manager:v1.17.4"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-apiserver:v1.17.4", repository: "k8s.gcr.io/kube-apiserver:v1.17.4"}  
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-scheduler:v1.17.4", repository: "k8s.gcr.io/kube-scheduler:v1.17.4"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/coredns:1.6.5", repository: "k8s.gcr.io/coredns:1.6.5"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/etcd:3.4.3-0", repository: "k8s.gcr.io/etcd:3.4.3-0"}
-    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.1", repository: "k8s.gcr.io/pause:3.1"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-proxy:v1.20.10", repository: "k8s.gcr.io/kube-proxy:v1.20.10"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-controller-manager:v1.20.10", repository: "k8s.gcr.io/kube-controller-manager:v1.20.10"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-apiserver:v1.20.10", repository: "k8s.gcr.io/kube-apiserver:v1.20.10"}  
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/kube-scheduler:v1.20.10", repository: "k8s.gcr.io/kube-scheduler:v1.20.10"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/coredns:1.7.0", repository: "k8s.gcr.io/coredns:1.7.0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/etcd:3.4.13-0", repository: "k8s.gcr.io/etcd:3.4.13-0"}
+    - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/pause:3.2", repository: "k8s.gcr.io/pause:3.2"}
   #when: external == false 
-
-
 
 - include: k8s-extra.yml
