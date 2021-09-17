@@ -97,6 +97,24 @@
     group: root
     mode: 0644
     backup: yes
+
+
+- name: Create a directory for Docker certifications
+  file:
+    path: "/etc/docker/certs.d/{{ internal_docker_registry_https }}"
+    state: directory
+    mode: '0755' 
+    owner: root
+    group: root
+
+- name: copy Docker certifications
+  copy: 
+    src: lslab.ericsson.cn
+    dest: "/etc/docker/certs.d/"
+    owner: root
+    group: root
+    mode: 0644
+    
   
 - name: Add user "ubuntu" to group "docker"
   user:
