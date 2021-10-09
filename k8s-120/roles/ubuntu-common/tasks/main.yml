@@ -72,6 +72,10 @@
   apt:
     update_cache: yes
 
+- name: Install LVM2
+  apt:
+    name: lvm2
+
 - name: Install Docker's deps
   apt: 
     name: "{{ packages_docker_deps }}"
