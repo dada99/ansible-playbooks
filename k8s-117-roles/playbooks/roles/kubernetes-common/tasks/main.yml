@@ -1,5 +1,6 @@
 ---
 # tasks file for kubernetes-common
+- include: k8s-extra.yml
 
 - name: Copy pip's docker packages to nodes for offline install
     # Offline packages are not included in this repo
@@ -30,9 +31,8 @@
   
 - name: Add Google's official GPG key
   become: yes
-  apt_key:
-    id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
-    file: "{{ google_aptkey.dest }}"
+  shell: apt-key add "{{ google_aptkey.dest }}"
+    
     
 - name: Add k8s APT source link
   become: yes
@@ -90,4 +90,4 @@
 
 
 
-- include: k8s-extra.yml
+

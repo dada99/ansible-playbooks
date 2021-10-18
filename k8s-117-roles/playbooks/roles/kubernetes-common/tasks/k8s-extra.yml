@@ -29,6 +29,14 @@
     owner: ubuntu
     group: ubuntu
 
+# - name: Create a directory for nginx ingress controller files
+#   file:
+#     path: "/home/ubuntu/ingress-nginx"
+#     state: directory
+#     mode: '0755' 
+#     owner: ubuntu
+#     group: ubuntu    
+
 - name: Create a directory for binary tools
   file:
     path: "/home/ubuntu/bin"
@@ -84,7 +92,12 @@
 - name: Copy Admin SA YAML files
   copy:
     src: "admin-service-account.yml"
-    dest: "{{ app_file_path }}/admin-service-account.yml"           
+    dest: "{{ app_file_path }}/admin-service-account.yml"
+
+- name: Copy nginx ingress controller files
+  copy:
+    src: "ingress-nginx/"
+    dest: "/home/ubuntu/ingress-nginx"                
 
 
 
