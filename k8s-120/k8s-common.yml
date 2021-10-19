@@ -11,3 +11,4 @@
   gather_facts: no
   roles: 
     - role: kubernetes-common
+    - role: kubernetes-extra

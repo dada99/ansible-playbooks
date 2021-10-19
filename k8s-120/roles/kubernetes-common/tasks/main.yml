@@ -88,4 +88,4 @@
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/coredns:1.7.0", repository: "k8s.gcr.io/coredns:1.7.0"}
     - {name: "{{ k8s_internal_registry }}/{{ k8s_internal_registry_project }}/k8s.gcr.io/etcd:3.4.13-0", repository: "k8s.gcr.io/etcd:3.4.13-0"}
     
-- include: k8s-extra.yml
+#- include: k8s-extra.yml
