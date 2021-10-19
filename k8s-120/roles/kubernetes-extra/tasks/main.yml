@@ -40,11 +40,14 @@
 
 - name: Copy Helm 3 client 
   copy:
-    src: bin/helm
+    src: helm-install.sh
     dest: /home/ubuntu/bin
     mode: '0755' 
     owner: ubuntu
     group: ubuntu
+    
+- name: Install Helm Client 
+  shell: /home/ubuntu/bin/helm-install.sh
 
 
 - name: Copy k8s dashboard and metric server file
