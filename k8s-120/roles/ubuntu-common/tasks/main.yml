@@ -18,33 +18,10 @@
     backup: yes
   when: external == true
 
-- name: Update Ubuntu's APT repo file with updated server infomation 
-  copy:
-    src: "{{ internal_apt_source_file }}"
-    dest: /etc/apt/sources.list
-    owner: root
-    group: root
-    mode: 0644
-    backup: yes
-  when: external == false
-
 - name: Update Ubuntu's hosts file
-  copy:
-    src: local-hosts
-    dest: /etc/hosts
-    owner: root
-    group: root
-    mode: 0644
-    backup: yes
-
-# - name: Update Ubuntu's DNS file
-#   copy:
-#     src: resolv.conf
-#     dest: /etc/resolv.conf
-#     owner: root
-#     group: root
-#     mode: 0644
-#     backup: yes   
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ hosts_list }}"
 
 - name: Update Ubuntu's DNS file
   lineinfile:
@@ -93,7 +70,7 @@
   apt:
     name: "{{ packages_docker }}" 
 
-- name: copy Docer's daemon file to nodes for registry or mirrors
+- name: Copy Docer's daemon file to nodes for registry or mirrors
   template: 
     src: docker-daemon.j2
     dest: /etc/docker/daemon.json
@@ -111,7 +88,7 @@
     owner: root
     group: root
 
-- name: copy Docker certifications
+- name: Copy Docker certifications
   copy: 
     src: lslab.ericsson.cn
     dest: "/etc/docker/certs.d/"

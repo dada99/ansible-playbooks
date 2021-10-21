@@ -47,7 +47,7 @@
     group: ubuntu
     
 - name: Install Helm Client 
-  shell: /home/ubuntu/bin/helm-install.sh
+  shell: /home/ubuntu/bin/helm-install.sh --version v3.7.1
 
 
 - name: Copy k8s dashboard and metric server file
