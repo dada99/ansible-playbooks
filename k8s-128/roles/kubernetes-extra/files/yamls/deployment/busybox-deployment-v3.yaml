@@ -1,0 +1,31 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "busybox-deployment-v3"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "busybox"
+  template:
+    metadata:
+      labels:
+        app: "busybox"
+    spec:
+      containers:
+      - name: "busybox"
+        image: "busybox:1.31"
+        command: ["/bin/sh","-c","ls /orderconfig-files&cat /orderconfig-files/userinfo&cat /orderconfig-files/flavor&sleep 3600"]
+        volumeMounts:
+        - name: orderconfig-v
+          mountPath: /orderconfig-files
+      volumes:
+      - name: orderconfig-v
+        configMap:
+          name: orderconfig
+          items: 
+          - key: userinfo
+            path: userinfo
+          - key: flavor
+            path: flavor
+ 

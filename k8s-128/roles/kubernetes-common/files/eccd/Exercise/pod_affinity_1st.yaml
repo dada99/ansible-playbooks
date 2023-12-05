@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-site
+  labels:
+    app: db
+spec:
+  containers:
+    - name: cont1
+      image: gcr.io/google-samples/node-hello:1.0
+      ports:
+        - containerPort: 88

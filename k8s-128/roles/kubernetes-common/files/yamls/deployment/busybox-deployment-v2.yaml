@@ -1,0 +1,26 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "busybox-deployment-v1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "busybox"
+  template:
+    metadata:
+      labels:
+        app: "busybox"
+    spec:
+      containers:
+      - name: "busybox"
+        image: "busybox:1.31"
+        command: ["/bin/sh","-c","env&sleep 3600"]
+        env:
+        # Define the environment variable
+        - name: user_name
+          valueFrom:
+            configMapKeyRef:
+              name: orderconfig1
+              # Specify the key associated with the value
+              key: userinfo.name

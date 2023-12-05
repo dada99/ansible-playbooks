@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-pod-nodeport
+spec:
+  type: NodePort
+  ports:
+    - nodePort: 30001
+      port: 80
+  selector:
+    app: nginx
+    

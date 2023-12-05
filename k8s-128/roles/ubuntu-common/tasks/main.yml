@@ -1,0 +1,169 @@
+---
+# tasks file for ubuntu-common
+- name: Create a directory for install files
+  file:
+    path: "/home/ubuntu/{{ install_file_path }}"
+    state: directory
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
+
+- name: Update Ubuntu's APT repo file with updated server infomation 
+  copy:
+    src: "{{ external_apt_source_file }}"
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  when: external == true
+
+- name: Update Ubuntu's APT repo file with updated server infomation 
+  copy:
+    src: "{{ internal_apt_source_file }}"
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  when: external == false
+
+- name: Update Ubuntu's hosts file
+  copy:
+    src: local-hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+# - name: Update Ubuntu's DNS file
+#   copy:
+#     src: resolv.conf
+#     dest: /etc/resolv.conf
+#     owner: root
+#     group: root
+#     mode: 0644
+#     backup: yes   
+
+- name: Update Ubuntu's DNS file
+  lineinfile:
+    path: /etc/resolvconf/resolv.conf.d/base
+    line: "nameserver {{ external_dnsserver }}"
+
+
+- name: Restart DNS Service
+  service:
+    name: resolvconf  
+    state: restarted
+
+- name: Copy Docker's offical GPG key
+  copy:
+    src: docker.gpg
+    dest: "/home/ubuntu/{{ install_file_path }}/docker.gpg"
+
+- name: Add Docker's official GPG key
+  apt_key:
+    id: "{{ docker_gpg_key }}"
+    file: "/home/ubuntu/{{ install_file_path }}/docker.gpg"    
+
+    
+- name: Update APT with latest information
+  apt:
+    update_cache: yes
+
+- name: Install LVM2
+  apt:
+    name: lvm2
+
+- name: Install Docker's deps
+  apt: 
+    name: "{{ packages_docker_deps }}"
+
+# - name: Copy libseccomp2 deb 
+#   copy:
+#     src: libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb
+#     dest: "/home/ubuntu/{{ install_file_path }}/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb"
+
+# - name: Install libseccomp2 deb 
+#   apt:
+#     deb: "/home/ubuntu/{{ install_file_path }}/libseccomp2_2.4.1-0ubuntu0.16.04.2_amd64.deb"
+
+- name: Install Docker CE
+  apt:
+    name: "{{ packages_docker }}" 
+
+- name: copy Docer's daemon file to nodes for registry or mirrors
+  template: 
+    src: docker-daemon.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+
+- name: Create a directory for Docker certifications
+  file:
+    path: "/etc/docker/certs.d/{{ internal_docker_registry_https }}"
+    state: directory
+    mode: '0755' 
+    owner: root
+    group: root
+
+- name: copy Docker certifications
+  copy: 
+    src: "{{ internal_docker_registry_https }}"
+    dest: "/etc/docker/certs.d/"
+    owner: root
+    group: root
+    mode: 0644
+    
+  
+- name: Add user "ubuntu" to group "docker"
+  user:
+    name: ubuntu
+    groups: 
+    - docker
+    append: yes
+
+- name: Restart Docker Service
+  become: yes 
+  service:
+    name: docker  
+    state: restarted
+
+- name: Change Time zone to CST
+  file:
+    src: /usr/share/zoneinfo/Asia/Shanghai
+    dest: /etc/localtime 
+     
+- name: Remove Python2
+  apt:
+    name: python
+    state: absent
+  when: python_interpreter_version == 3
+
+- name: Remove Python2's pip
+  apt:
+    name: python-pip
+    state: absent
+  when: python_interpreter_version == 3
+
+- name: Install Python 3
+  apt:
+    name: "{{ python3_version }}"
+    #state: present
+
+- name: Install pip for Python 3
+  apt:
+    name: python3-pip
+    #update_cache: yes
+  # - name: copy pip command to /usr/bin
+  #   shell: cp ~/.local/bin/pip3 /usr/bin
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes              
+                
+ 

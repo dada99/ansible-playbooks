@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-nginx-v3
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: k8s1.lab.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-svr1
+          servicePort: 8080
+  - host: k8s2.lab.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx-svr2
+          servicePort: 8080
+
+
+

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: groupy-servicepod
+  labels:
+    app.kubernetes.io/name: groupYlabel
+spec:
+  containers:
+    - name: cont1
+      image: gcr.io/google-samples/node-hello:1.0
+      ports:
+        - containerPort: 443

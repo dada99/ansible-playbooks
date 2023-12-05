@@ -1,0 +1,1 @@
+awk -F '/' '{if(NF==2) print "- { src: "$1"/"$2", dest: "$1" }";else print "- { src: "$1"/"$2"/"$3", dest: "$1$2" }"}' file-list

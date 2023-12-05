@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-svr1
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 80
+  selector:
+    app: nginx-svr1
+    
