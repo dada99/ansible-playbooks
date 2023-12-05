@@ -1,0 +1,7 @@
+#For role test
+---
+- hosts: all
+- import_playbook: ubuntu-common.yml
+- import_playbook: k8s-common.yml
+
+      

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: chris-site
+spec:
+  containers:
+    - name: cont1
+      image: nginx
+      ports:
+        - containerPort: 80
+    - name: cont2
+      image: gcr.io/google-samples/node-hello:1.0
+      ports:
+        - containerPort: 88

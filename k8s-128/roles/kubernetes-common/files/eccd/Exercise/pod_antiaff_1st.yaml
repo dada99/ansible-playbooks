@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: group-y-antiaff
+  labels:
+    app: web
+spec:
+  containers:
+    - name: cont1
+      image: gcr.io/google-samples/node-hello:1.0
+      ports:
+        - containerPort: 8080
