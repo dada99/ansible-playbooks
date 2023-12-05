@@ -1,5 +1,4 @@
-deb https://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
-deb https://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
-deb https://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
-deb https://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
 deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu/ xenial stable
+deb https://mirrors.aliyun.com/ubuntu xenial main restricted universe multiverse
+deb https://mirrors.aliyun.com/ubuntu xenial-updates  restricted universe multiverse
+deb https://mirrors.aliyun.com/ubuntu xenial-security restricted universe multiverse

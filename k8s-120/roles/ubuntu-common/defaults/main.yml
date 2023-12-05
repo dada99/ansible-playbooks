@@ -18,10 +18,8 @@ packages_docker:
   - containerd.io
 external_docker_registry_mirrors: https://q1u34koz.mirror.aliyuncs.com # Full URL
 internal_docker_registry_mirrors: 10.163.213.25:89 #ip:port
-internal_docker_registry_https: lslab.ericsson.cn
+internal_docker_registry_https: harbor.dada99.com:8443
 python_interpreter_version: 3 # Python Version for node to be managed
 python3_version: python3=3.5.1-3
 install_file_path: installed_files #Path to store files on target 
 external_dnsserver: "223.5.5.5"
-
-

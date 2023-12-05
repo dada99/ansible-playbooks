@@ -46,44 +46,44 @@
     owner: ubuntu
     group: ubuntu
     
-- name: Install Helm Client 
-  shell: /home/ubuntu/bin/helm-install.sh --version v3.7.1
+# - name: Install Helm Client 
+#   shell: /home/ubuntu/bin/helm-install.sh
 
 
 - name: Copy k8s dashboard and metric server file
   copy:
     src: "{{ k8s_dashboard_file }}"
-    dest: "{{ app_file_path }}/{{ k8s_dashboard_file }}"
+    dest: "/home/ubuntu/{{ app_file_path }}/{{ k8s_dashboard_file }}"
 
 - name: Copy metric server file
   copy:
     src: "metric-server/"
-    dest: "{{ app_file_path }}/metric-server"
+    dest: "/home/ubuntu/{{ app_file_path }}/metric-server"
 
 - name: Copy Flannel YAML file
   copy:
     src: "{{ k8s_flannel_file }}"
-    dest: "{{ app_file_path }}/{{ k8s_flannel_file }}"
+    dest: "/home/ubuntu/{{ app_file_path }}/{{ k8s_flannel_file }}"
 
 - name: Copy Calico YAML file
   copy:
     src: "{{ k8s_calico_file }}"
-    dest: "{{ app_file_path }}/{{ k8s_calico_file }}"     
+    dest: "/home/ubuntu/{{ app_file_path }}/{{ k8s_calico_file }}"     
 
 - name: Copy Metallb YAML files
   copy:
     src: "metallb/"
-    dest: "{{ app_file_path }}/metallb"
+    dest: "/home/ubuntu/{{ app_file_path }}/metallb"
 
 - name: Copy Ceph CSI YAML files
   copy:
     src: "ceph-csi/"
-    dest: "{{ app_file_path }}/ceph-csi"
+    dest: "/home/ubuntu/{{ app_file_path }}/ceph-csi"
 
 - name: Copy Admin SA YAML files
   copy:
     src: "admin-service-account.yml"
-    dest: "{{ app_file_path }}/admin-service-account.yml"           
+    dest: "/home/ubuntu/{{ app_file_path }}/admin-service-account.yml"           
 
 
 

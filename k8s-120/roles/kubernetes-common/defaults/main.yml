@@ -16,7 +16,7 @@ k8s_packages:
   - kubectl=1.20.10-00
   - ipset 
 k8s_external_registry: registry.cn-beijing.aliyuncs.com/thedada99/k8s-mirror/k8s.gcr.io
-k8s_internal_registry: lslab.ericsson.cn
+k8s_internal_registry: harbor.dada99.com:8443
 k8s_internal_registry_project: library
 k8s_internal_registry_username: lslab
 k8s_dashboard_file: kubernetes-dashboard.yml

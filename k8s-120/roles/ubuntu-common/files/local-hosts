@@ -1,9 +1,8 @@
 192.168.122.100      ubuntu-lab-120-k8s-0-master
 192.168.122.101    ubuntu-lab-120-k8s-0-worker-1
 192.168.122.102    ubuntu-lab-120-k8s-0-worker-2
-192.168.122.103    ubuntu-lab-120-k8s-0-worker-3
 127.0.0.1       localhost
 ::1     localhost ip6-localhost ip6-loopback
 ff02::1 ip6-allnodes
-
-10.163.213.2    lslab.ericsson.cn
+ff02::2 ip6-allrouters
+192.168.124.201    harbor.dada99.com
